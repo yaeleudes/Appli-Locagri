@@ -41,26 +41,3 @@ class _SplashState extends State<Splash> {
     );
   }
 }
-
-// Column(
-        //   crossAxisAlignment: CrossAxisAlignment.center,
-        //   // mainAxisAlignment: MainAxisAlignment.center,
-        //   children: [
-
-        //     SizedBox(height: size.height*0.010,),
-        //     // AnimationDelay(
-        //     //   delay: 2500, 
-        //     //   child: Container(
-        //     //     alignment: Alignment.center,
-        //     //     child: Text(
-        //     //       "Green solutions for Africa",
-        //     //       style: GoogleFonts.poppins(
-        //     //         color: Colors.green,
-        //     //         fontSize: size.height*0.024,
-        //     //       ),
-        //     //       textAlign: TextAlign.center,
-        //     //     ),
-        //     //   )
-        //     // )
-        //   ],
-        // ),
