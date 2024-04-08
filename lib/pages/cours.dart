@@ -1,6 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:formation_locagri/animation.dart';
+import 'package:formation_locagri/models/Chapter.dart';
+import 'package:formation_locagri/models/User.dart';
+import 'package:formation_locagri/pages/lessons_list.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'chapitre.dart';
@@ -11,16 +13,8 @@ class Cours extends StatefulWidget {
   @override
   State<Cours> createState() => _CoursState();
 }
-
 class _CoursState extends State<Cours> {
-  List<String> chapitres = ["Chapitre 1", "Chapitre 2", "Chapitre 3", "Chapitre 4"];
-  List<String> descriptions = [
-    "Changement Climatique - Impacts et Défis pour la Cacaoculture",
-    "Les Forêts et Arbres, Nos Gardiens contre le Changement Climatique",
-    "Agroforesterie en Cacaoculture, Solution pour une Cacaoculture Durable",
-    "Mise en Place du Système Agroforestier (SAF) en Cacaoculture"
-  ];
-  List<int> lessons = [4, 2, 5, 6]; 
+  List<int> lessons = [4, 2, 5, 6];
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +22,7 @@ class _CoursState extends State<Cours> {
     
     return Scaffold(
       appBar: AppBar(
-        //elevation: 10,
+        elevation: 0,
         backgroundColor: Colors.green,
         leading: IconButton(
           onPressed: (){
@@ -36,12 +30,6 @@ class _CoursState extends State<Cours> {
           }, 
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white,)
         ),
-        /*title: Text(
-          "Tous les cours",
-          style: GoogleFonts.poppins(
-            color: Colors.white,
-          ),
-        ),*/
         actions: [
           Center(child: Text(
             "0",
@@ -125,7 +113,7 @@ class _CoursState extends State<Cours> {
                 AnimationDelay(
                     delay: 1000,
                     child: GridView.builder(
-                      itemCount: chapitres.length,
+                      itemCount: chapters.length,
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -139,11 +127,11 @@ class _CoursState extends State<Cours> {
                           onTap: (){
                             Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => const Chapitre())
+                                MaterialPageRoute(builder: (context) => LessonsList(chapters[index].labelle))
                             );
                           },
                           child: Container(
-                            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 color: Colors.green[100]
@@ -152,18 +140,18 @@ class _CoursState extends State<Cours> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  chapitres[index],
+                                  chapters[index].labelle,
                                   style: GoogleFonts.poppins(
                                     fontSize: 22,
                                     fontWeight: FontWeight.w600,
                                     color: Colors.black.withOpacity(0.7),
                                   ),
                                 ),
-                                SizedBox(height: 12,),
+                                const SizedBox(height: 12),
                                 Text(
-                                  descriptions[index],
+                                  chapters[index].title,
                                   style: GoogleFonts.poppins(
-                                      fontSize: 14,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.black.withOpacity(0.5)
                                   ),

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:formation_locagri/models/Lesson.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Chapitre extends StatefulWidget {
-  const Chapitre({super.key});
+  Lesson lesson;
+  String chapter;
+  Chapitre(this.chapter, this.lesson, {super.key});
 
   @override
   State<Chapitre> createState() => _ChapitreState();
@@ -16,6 +19,7 @@ class _ChapitreState extends State<Chapitre> {
 
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: Colors.green,
         leading: IconButton(
           onPressed: (){
@@ -24,8 +28,10 @@ class _ChapitreState extends State<Chapitre> {
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white,)
         ),
         title: Text(
-          "Chapitre 1",
+          widget.chapter,
           style: GoogleFonts.poppins(
+            fontSize: 22,
+            fontWeight: FontWeight.w600,
             color: Colors.white,
           ),
         ),
@@ -46,27 +52,62 @@ class _ChapitreState extends State<Chapitre> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-          child: Column(
-            children: [
-              Text(
-                "Définition du  changement climatique",
-                style: GoogleFonts.poppins(
-                  // color: Colors.black,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700
-                ),
-                textAlign: TextAlign.start,
-              ),
-              SizedBox(height: size.height*0.018,),
-              const Image(image: AssetImage("assets/images/image0.png"))
-              
-            ]
-          ),
+      body: Padding(
+        padding: const EdgeInsets.only(left: 2, right: 2, bottom: 10, top: 0),
+        child: ListView(
+          children: [
+            Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 4),
+                    child: Text(
+                      widget.lesson.title,
+                      style: GoogleFonts.poppins(
+                        // color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10,),
+                  Image.asset(widget.lesson.thumbnail),
+                  const SizedBox(height: 10,),
+
+                  const SizedBox(height: 10,),
+                  Card(
+                    elevation: 4,
+                    color: Colors.orange[500],
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
+                      child: RichText(
+                          //textAlign: TextAlign.justify,
+                          text: TextSpan(
+                              style: GoogleFonts.poppins(fontSize: 16.5,),
+                              children: [
+                                TextSpan(
+                                    text: "Message clé : ",
+                                    style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w900,
+                                        fontSize: 16,
+                                    )
+                                ),
+                                TextSpan(
+                                  text: widget.lesson.keyMessage,
+                                  style: TextStyle(
+                                    wordSpacing: 2,
+                                  )
+                                )
+                              ]
+                          )
+                      ),
+                    )
+                  )
+                ]
+            ),
+          ],
         ),
-      ),
+      )
     );
   }
 }

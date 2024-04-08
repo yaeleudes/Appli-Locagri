@@ -117,61 +117,62 @@ class _AccueilState extends State<Accueil> {
                             Material(
                               color: Colors.green,
                               borderRadius: BorderRadius.circular(10),
-                              child: SizedBox(
-                                height: size.height*0.05,
-                                //width: size.width*0.63,
-                                child: ElevatedButton.icon(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.green,
-
-                                  //side: const BorderSide(color: Colors.green, width: 1.0),
-                                ),
-                                onPressed: (){
+                              child: InkWell(
+                                onTap: (){
                                   Navigator.push(
-                                    context, 
-                                    MaterialPageRoute(builder: (context) => const Cours())
+                                      context,
+                                      MaterialPageRoute(builder: (context) => const Cours())
                                   );
-                                }, 
-                                icon: const Icon(Icons.book, color: Colors.white,),
-                                label: Text(
-                                  "Apprendre",
-                                  style: GoogleFonts.poppins(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    letterSpacing: 1,
-                                  ),
-                                )
-                              ),
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 35),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Icon(Icons.book, color: Colors.white,),
+                                      Text(
+                                        "Apprendre",
+                                        style: GoogleFonts.poppins(
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                          letterSpacing: 1,
+                                          fontWeight: FontWeight.w500
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                ),
                               )
                             ),
                             Material(
                               color: Colors.green,
                               borderRadius: BorderRadius.circular(10),
-                              child: SizedBox(
-                                height: size.height*0.05,
-                                //width: size.width*0.63,
-                                child: ElevatedButton.icon(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.green,
-                                    //side: const BorderSide(color: Colors.green, width: 1.0)
-                                  ),
-                                  onPressed: (){
-                                    Navigator.push(
-                                      context, 
+                              child: InkWell(
+                                onTap: (){
+                                  Navigator.push(
+                                      context,
                                       MaterialPageRoute(builder: (context) => const Quiz())
-                                    );
-                                  }, 
-                                  icon: const Icon(Icons.quiz, color: Colors.white,),
-                                  label: Text(
-                                    "Quiz",
-                                    style: GoogleFonts.poppins(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      letterSpacing: 1,
-                                    ),
-                                  )
+                                  );
+                                },
+                                child: Container(
+                                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 35),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Icon(Icons.quiz_sharp, color: Colors.white,),
+                                        Text(
+                                          "Quiz",
+                                          style: GoogleFonts.poppins(
+                                            color: Colors.white,
+                                            fontSize: 20,
+                                            letterSpacing: 1,
+                                              fontWeight: FontWeight.w500
+                                          ),
+                                        )
+                                      ],
+                                    )
                                 ),
-                              ),
+                              )
                             )
                           ],
                         ),
