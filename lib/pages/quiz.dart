@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:formation_locagri/models/Quiz.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,10 +14,14 @@ class QuizView extends StatefulWidget {
 }
 
 class _QuizState extends State<QuizView> {
-
   int _currentQuizIndex = 0;
   List<String> _selectedAnswers = [];
+  int _selectedIndex = -1;
   int _mesPoints = 0;
+  bool isEnabled = true;
+  bool _isButtonEnabled = true;
+  Color tileColor = Colors.white;
+  Color defaultTileColor = Colors.white;
   bool _allQuizzesValidated = false;
 
   @override
@@ -26,80 +32,259 @@ class _QuizState extends State<QuizView> {
 
   void _onAnswerSelected(String answer) {
     setState(() {
-      _selectedAnswers[widget.listQuiz[_currentQuizIndex].id] = answer;
+      if (widget.listQuiz[_currentQuizIndex].reponseExacte.length > 1) {
+        if (_selectedAnswers.contains(answer)) {
+          _selectedAnswers.remove(answer);
+        } else {
+          _selectedAnswers.add(answer);
+        }
+      } else {
+        _selectedAnswers.clear();
+        _selectedAnswers.add(answer);
+      }
     });
   }
 
   void _onNextPressed() {
     setState(() {
       _currentQuizIndex++;
+      isEnabled = true;
+      _isButtonEnabled = true;
+      _selectedAnswers.clear();
+      tileColor = Colors.white;
     });
   }
 
   void _onValidatePressed() {
-    // Vérifier les réponses et afficher les résultats
+    _isButtonEnabled = false;
+    isEnabled = false;
+    setState(() {
+      if (widget.listQuiz[_currentQuizIndex].reponseExacte.length > 1) {
+        bool answerCorrect = true;
+        
+        if (!(_selectedAnswers.length == widget.listQuiz[_currentQuizIndex].reponseExacte.length && _selectedAnswers.every((element) => widget.listQuiz[_currentQuizIndex].reponseExacte.contains(element)))) {
+          answerCorrect = false;
+          tileColor = Colors.red;
+        }
+        
+        if (answerCorrect) {
+          _mesPoints += 1;
+          tileColor = Colors.green;
+        }
+      } else {
+        bool answerCorrect = true;
+        // if (!(_selectedAnswers[_currentQuizIndex] == widget.listQuiz[_currentQuizIndex].reponseExacte[0])) {
+        //   answerCorrect = false;
+        //   tileColor = Colors.red;
+        // }
+
+        for (String correctAnswer in widget.listQuiz[_currentQuizIndex].reponseExacte) {
+          if (!_selectedAnswers.contains(correctAnswer)) {
+            answerCorrect = false;
+            tileColor = Colors.red;
+            break;
+          }
+        }
+        if (answerCorrect) {
+          _mesPoints += 1;
+          tileColor = Colors.green;
+        }
+      }
+    });
   }
 
   Widget _buildQuestionText() {
-    return Text(
-      widget.listQuiz[_currentQuizIndex].question,
-      style: TextStyle(fontSize: 20),
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: 200,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: Colors.green[100],
+      ),
+      child: Center(
+        child: Text(
+          widget.listQuiz[_currentQuizIndex].question,
+          style: GoogleFonts.poppins(
+            color: Colors.black.withOpacity(0.8),
+            fontSize: 20,
+            fontWeight: FontWeight.w500
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ),
     );
   }
 
-  Widget _buildAnswerList() {
+  Widget _buildAnswerList(){
+    if (widget.listQuiz[_currentQuizIndex].propositionReponse.isEmpty) {
+      return Text("Aucune proposition de réponse n'est disponible.");
+    }
     return ListView.builder(
       shrinkWrap: true,
       itemCount: widget.listQuiz[_currentQuizIndex].propositionReponse.length,
-      itemBuilder: (BuildContext context, int index) {
+      itemBuilder: (context, index){
+        List<int> selectedIndices = [];
         String label = widget.listQuiz[_currentQuizIndex].propositionReponse.keys.elementAt(index);
         String value = widget.listQuiz[_currentQuizIndex].propositionReponse.values.elementAt(index);
-        Color tileColor = Colors.white;
-        return ListTile(
-          title: Text(value),
-          tileColor: tileColor,
-          enabled: !widget.listQuiz[_currentQuizIndex].valide || _selectedAnswers[widget.listQuiz[_currentQuizIndex].id] == label,
-          onTap: () {
-            _onAnswerSelected(label);
-          },
-        );
-      },
+        
+        if (widget.listQuiz[_currentQuizIndex].reponseExacte.length > 1) {
+          return Card(
+            color: selectedIndices.contains(index) ? Colors.blue : defaultTileColor,
+            elevation: 4.0,
+            child: ListTile(
+              title: Text(
+                value,
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                  color: Colors.black,
+                ),
+              ),
+              // Modifiez la fonction onTap
+              onTap: () {
+                setState(() {
+                  isEnabled = true;
+                  if (selectedIndices.contains(index)) {
+                    selectedIndices.remove(index);
+                  } else {
+                    selectedIndices.add(index);
+                  }
+                  _onAnswerSelected(label);
+                });
+              },
+              enabled: isEnabled,
+            ),
+          );
+        } else {
+          return Card(
+            color: _selectedIndex == index ? tileColor : defaultTileColor, // utilisez la propriété color du widget Container pour définir la couleur d'arrière-plan du Card
+            elevation: 4.0,
+            child: ListTile(
+              title: Text(
+                value,
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                  color: Colors.black, // utilisez la variable _isSelected pour déterminer la couleur du texte
+                ),
+              ),
+              onTap: (){
+                setState(() {
+                  // isEnabled = false;
+                  _selectedIndex = index; // basculez la valeur de _isSelected à chaque appui sur le ListTile
+                  tileColor = Colors.blue;
+                  _onAnswerSelected(label);
+                  print(_selectedAnswers);
+                });
+              },
+              enabled: isEnabled,
+            ),
+          );
+        }
+      }
     );
   }
 
   Widget _buildValidateButton() {
-    return ElevatedButton(
-      onPressed: _onValidatePressed,
-      child: Text('Valider'),
+    return Material(
+      color: _isButtonEnabled ? Colors.green : Colors.green[100],
+      borderRadius: BorderRadius.circular(10),
+      child: InkWell(
+        onTap: _isButtonEnabled ? () => _onValidatePressed() : null,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                "Valider",
+                style: GoogleFonts.poppins(
+                  color: Colors.white,
+                  fontSize: 18,
+                  // letterSpacing: 1,
+                  fontWeight: FontWeight.w500
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 
   Widget _buildNextButton() {
-    return ElevatedButton(
-      onPressed: _currentQuizIndex < widget.listQuiz.length - 1 ? _onValidatePressed : () {
-        setState(() {
-          _allQuizzesValidated = true;
-        });
-      },
-      child: Text(_currentQuizIndex < widget.listQuiz.length - 1 ? 'Suivant' : 'Terminer'),
+    // _currentQuizIndex == widget.listQuiz.length - 1
+    if (_currentQuizIndex == widget.listQuiz.length - 1) {
+      return Material(
+      color: Colors.green,
+      borderRadius: BorderRadius.circular(10),
+      child: InkWell(
+        onTap: (){
+          setState(() {
+            _allQuizzesValidated = true;
+          });
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                "Terminer",
+                style: GoogleFonts.poppins(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
     );
+    } else {
+      return Material(
+      color: Colors.green,
+      borderRadius: BorderRadius.circular(10),
+      child: InkWell(
+        onTap: (){
+          _onNextPressed();
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                "Suivant",
+                style: GoogleFonts.poppins(
+                  color: Colors.white,
+                  fontSize: 18,
+                  // letterSpacing: 1,
+                  fontWeight: FontWeight.w500
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+    }
   }
-
+  
   Widget _buildQuizView() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildQuestionText(),
-        SizedBox(height: 16),
+        SizedBox(height: 20,),
         _buildAnswerList(),
-        SizedBox(height: 16),
+        SizedBox(height: 20,),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             _buildValidateButton(),
-            _buildNextButton(),
+            _buildNextButton()
           ],
-        ),
+        )      
       ],
     );
   }
@@ -113,24 +298,24 @@ class _QuizState extends State<QuizView> {
           style: TextStyle(fontSize: 24),
         ),
         SizedBox(height: 16),
-        ElevatedButton(
-          onPressed: () {
-            setState(() {
-              _currentQuizIndex = 0;
-              _selectedAnswers.clear();
-              _mesPoints = 0;
-              for (Quiz quiz in widget.listQuiz) {
-                quiz.valide = false;
-              }
-              _allQuizzesValidated = false;
-            });
-          },
-          child: Text('Rejouer'),
-        ),
+        // ElevatedButton(
+        //   onPressed: () {
+        //     setState(() {
+        //       _currentQuizIndex = 0;
+        //       _selectedAnswers.clear();
+        //       _mesPoints = 0;
+        //       for (Quiz quiz in widget.listQuiz) {
+        //         quiz.valide = false;
+        //       }
+        //       _allQuizzesValidated = false;
+        //     });
+        //   },
+        //   child: Text('Rejouer'),
+        // ),
       ],
     );
   }
- 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -166,7 +351,7 @@ class _QuizState extends State<QuizView> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+        padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

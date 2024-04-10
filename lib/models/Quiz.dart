@@ -21,7 +21,7 @@ List<Quiz> listQuiz = [
   Quiz(
     id: 0, 
     idChapitre: 0, 
-    question: "Le changement climatique représente", 
+    question: "Le changement climatique représente :", 
     propositionReponse: {
       "a" : "a)	Le passage de l’harmattan à la saison des pluies",
       "b" : "b)	L’ensemble des variations des caractéristiques du climat au cours du mois",
@@ -33,7 +33,7 @@ List<Quiz> listQuiz = [
   Quiz(
     id: 1, 
     idChapitre: 0, 
-    question: "Dans un paysage sous l’effet du changement, les parcelles de cacao produisent un bon rendement.", 
+    question: "Dans un paysage sous l’effet du changement, les parcelles de cacao produisent un bon rendement :", 
     propositionReponse: {
       "a" : "Vrai",
       "b" : "Faux"
@@ -55,7 +55,7 @@ List<Quiz> listQuiz = [
   Quiz(
     id: 3, 
     idChapitre: 0, 
-    question: "Cochez les conséquences du changement climatique sur la cacaoculture", 
+    question: "Cochez les conséquences du changement climatique sur la cacaoculture :", 
     propositionReponse: {
       "a" : "a)	Augmentation de la productivité des cacaoyers",
       "b" : "b)	Vulnérabilité des cacaoyers face aux maladie",
@@ -81,7 +81,7 @@ List<Quiz> listQuiz = [
   Quiz(
     id: 5, 
     idChapitre: 1, 
-    question: "La disparition des forêts n'est pas seulement une perte pour la nature. Elle affecte profondément le climat local, la fertilité des sols et la régularité des pluies.", 
+    question: "La disparition des forêts n'est pas seulement une perte pour la nature. Elle affecte profondément le climat local, la fertilité des sols et la régularité des pluies :", 
     propositionReponse: {
       "a" : "Vrai",
       "b" : "Faux",
@@ -91,7 +91,7 @@ List<Quiz> listQuiz = [
   Quiz(
     id: 6, 
     idChapitre: 1, 
-    question: "L’extension des terres agricole notamment pour la cacaoculture n’est pas une cause de la perte des forêts ivoiriennes.", 
+    question: "L’extension des terres agricole notamment pour la cacaoculture n’est pas une cause de la perte des forêts ivoiriennes :", 
     propositionReponse: {
       "a" : "Vrai",
       "b" : "Faux",
@@ -101,7 +101,7 @@ List<Quiz> listQuiz = [
   Quiz(
     id: 7, 
     idChapitre: 1, 
-    question: "Tout cacao produit dans une forêt classée, une réserve naturelle ou en convertissant des forêts en terres agricoles pour le cacao ne sera pas acheter conformément à la nouvelle règlementation de l’UE sur la déforestation.", 
+    question: "Tout cacao produit dans une forêt classée, une réserve naturelle ou en convertissant des forêts en terres agricoles pour le cacao ne sera pas acheter conformément à la nouvelle règlementation de l’UE sur la déforestation :", 
     propositionReponse: {
       "a" : "Vrai",
       "b" : "Faux",
@@ -151,17 +151,17 @@ List<Quiz> listQuiz = [
     idChapitre: 2, 
     question: "Il existe combien de type de systèmes agroforestiers en cacaoculture ?", 
     propositionReponse: {
-      "a" : "3 Systèmes",
-      "b" : "2 Systèmes",
-      "c" : "5 Systèmes",
-      "d" : "Aucune réponse n’est correcte ",
+      "a" : "a) 3 Systèmes",
+      "b" : "b) 2 Systèmes",
+      "c" : "c) 5 Systèmes",
+      "d" : "d) Aucune réponse n’est correcte ",
     }, 
     reponseExacte: ["a"]
   ),
   Quiz(
     id: 12, 
     idChapitre: 2, 
-    question: "Les arbres forestiers dans les plantations", 
+    question: "Les arbres forestiers dans les plantations :", 
     propositionReponse: {
       "a" : "a)	Tuent les cacaoyers",
       "b" : "b)	Apportent de l’ombrage et de la matière organique nécessaires au développement du cacaoyer",
@@ -173,7 +173,7 @@ List<Quiz> listQuiz = [
   Quiz(
     id: 13, 
     idChapitre: 2, 
-    question: "L’agroforesterie nuit à la cacaoculture et ne fournit aucun bénéfice au producteur qui la pratique", 
+    question: "L’agroforesterie nuit à la cacaoculture et ne fournit aucun bénéfice au producteur qui la pratique :", 
     propositionReponse: {
       "a" : "Vrai",
       "b" : "Faux",
@@ -185,7 +185,7 @@ List<Quiz> listQuiz = [
   Quiz(
     id: 14, 
     idChapitre: 3, 
-    question: "La phase de sensibilisation du producteur sur l’agroforesterie n’est pas nécessaire parce que le producteur n’a pas besoin de savoir pourquoi il doit pratiquer l’agroforesterie.", 
+    question: "La phase de sensibilisation du producteur sur l’agroforesterie n’est pas nécessaire parce que le producteur n’a pas besoin de savoir pourquoi il doit pratiquer l’agroforesterie :", 
     propositionReponse: {
       "a" : "Vrai",
       "b" : "Faux",
@@ -195,7 +195,7 @@ List<Quiz> listQuiz = [
   Quiz(
     id: 15, 
     idChapitre: 3, 
-    question: "Le système agroforestier est choisi par le technicien ainsi que les arbres forestiers qui seront associés sans la consultation préalable du producteur.", 
+    question: "Le système agroforestier est choisi par le technicien ainsi que les arbres forestiers qui seront associés sans la consultation préalable du producteur :", 
     propositionReponse: {
       "a" : "Vrai",
       "b" : "Faux",
@@ -216,22 +216,22 @@ List<Quiz> listQuiz = [
   Quiz(
     id: 17, 
     idChapitre: 3, 
-    question: "Lors de l’entretien de la parcelle et des arbres, tailler un arbre consiste  à :", 
+    question: "Lors de l’entretien de la parcelle et des arbres, tailler un arbre consiste à :", 
     propositionReponse: {
       "a" : "a)	Supprimer les parties inutiles (branches mortes, malades, basses, en surnombre) de l’arbre",
       "b" : "b)	Couper la tige de l’arbre",
-      "c" : "Supprimer les feuilles de l’arbre",
+      "c" : "c) Supprimer les feuilles de l’arbre",
     }, 
     reponseExacte: ["a"]
   ),
   Quiz(
     id: 18, 
     idChapitre: 3, 
-    question: "Dans un systeme agroforestier A base de cacao, il faut:", 
+    question: "Dans un systeme agroforestier A base de cacao, il faut :", 
     propositionReponse: {
       "a" : "a)	Laisser pousser les arbres naturellement",
       "b" : "b)	Sélectionner ou planter des arbres selon l’objectif du producteur et les entretenir",
-      "c" : "Couper/Emonder toutes les branches pour l’alimentation du bétail",
+      "c" : "c) Couper/Emonder toutes les branches pour l’alimentation du bétail",
     }, 
     reponseExacte: ["b"]
   ),
@@ -240,7 +240,7 @@ List<Quiz> listQuiz = [
   Quiz(
     id: 19, 
     idChapitre: 4, 
-    question: "Lorsque je plante un arbre dans ma parcelle de cacao, cet arbre appartient à la coopérative à laquelle j’appartiens.", 
+    question: "Lorsque je plante un arbre dans ma parcelle de cacao, cet arbre appartient à la coopérative à laquelle j’appartiens :", 
     propositionReponse: {
       "a" : "Vrai",
       "b" : "Faux",
@@ -250,7 +250,7 @@ List<Quiz> listQuiz = [
   Quiz(
     id: 20, 
     idChapitre: 4, 
-    question: "A qui appartient un arbre planté par un producteur sur sa parcelle de cacao dont il est propriétaire", 
+    question: "A qui appartient un arbre planté par un producteur sur sa parcelle de cacao dont il est propriétaire :", 
     propositionReponse: {
       "a" : "a)	Au chef du village",
       "b" : "b)	A Barry Callebaut",
@@ -272,7 +272,7 @@ List<Quiz> listQuiz = [
   Quiz(
     id: 22, 
     idChapitre: 4, 
-    question: "Lorsqu’un exploitant forestier se rend sur ma parcelle pour couper des arbres, il n’est pas tenu d’avoir mon autorisation.", 
+    question: "Lorsqu’un exploitant forestier se rend sur ma parcelle pour couper des arbres, il n’est pas tenu d’avoir mon autorisation :", 
     propositionReponse: {
       "a" : "Vrai",
       "b" : "Faux",
@@ -317,7 +317,7 @@ List<Quiz> listQuiz = [
   Quiz(
     id: 21, 
     idChapitre: 5, 
-    question: "Le producteur qui dispose d’un contrat PSE reçoit le paiement à la signature du contrat PSE", 
+    question: "Le producteur qui dispose d’un contrat PSE reçoit le paiement à la signature du contrat PSE :", 
     propositionReponse: {
       "a" : "Vrai",
       "b" : "Faux",
@@ -338,7 +338,7 @@ List<Quiz> listQuiz = [
   Quiz(
     id: 23, 
     idChapitre: 5, 
-    question: "Apres quelle activité le paiement est-il réalisé ? ", 
+    question: "Apres quelle activité le paiement est-il réalisé ?", 
     propositionReponse: {
       "a" : "a)	Le monitoring ",
       "b" : "b)	Le planting des arbres",

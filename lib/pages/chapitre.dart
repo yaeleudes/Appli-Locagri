@@ -78,7 +78,12 @@ class _ChapitreState extends State<Chapitre> {
                         tag: "smallImage", 
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(16),
-                          child: InteractiveViewer(child: Image.asset(widget.lesson.thumbnail, fit: BoxFit.cover,),)
+                          child: InteractiveViewer(
+                            boundaryMargin: EdgeInsets.all(100),
+                            minScale: 0.1,
+                            maxScale: 5,
+                            child: Image.asset(widget.lesson.thumbnail, fit: BoxFit.cover,),
+                          )
                         ),
                       ),
                     ),
