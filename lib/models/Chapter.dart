@@ -2,11 +2,13 @@ class Chapter {
   int id;
   String title;
   String labelle;
+  bool ended;
 
   Chapter({
     required this.id,
     required this.labelle,
-    required this.title
+    required this.title,
+    this.ended = false
   });
 }
 

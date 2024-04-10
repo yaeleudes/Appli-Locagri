@@ -1,6 +1,6 @@
 //Page pour l'Accueil
 import 'package:flutter/material.dart';
-import 'package:formation_locagri/pages/quiz.dart';
+import 'package:formation_locagri/pages/quiz_menu.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../animation.dart';
@@ -151,15 +151,15 @@ class _AccueilState extends State<Accueil> {
                                 onTap: (){
                                   Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (context) => const Quiz())
+                                      MaterialPageRoute(builder: (context) => const QuizMenu())
                                   );
                                 },
                                 child: Container(
-                                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 35),
+                                    padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 35),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        Icon(Icons.quiz_sharp, color: Colors.white,),
+                                        const Icon(Icons.quiz_sharp, color: Colors.white,),
                                         Text(
                                           "Quiz",
                                           style: GoogleFonts.poppins(

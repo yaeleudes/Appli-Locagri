@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:formation_locagri/models/Lesson.dart';
+import 'package:full_screen_image/full_screen_image.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Chapitre extends StatefulWidget {
@@ -64,17 +65,61 @@ class _ChapitreState extends State<Chapitre> {
                     child: Text(
                       widget.lesson.title,
                       style: GoogleFonts.poppins(
-                        // color: Colors.black,
                           fontSize: 20,
                           fontWeight: FontWeight.w500
                       ),
                     ),
                   ),
                   const SizedBox(height: 10,),
-                  Image.asset(widget.lesson.thumbnail),
+                  FullScreenWidget(
+                    disposeLevel: DisposeLevel.Medium,
+                    child: Center(
+                      child: Hero(
+                        tag: "smallImage", 
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: InteractiveViewer(child: Image.asset(widget.lesson.thumbnail, fit: BoxFit.cover,),)
+                        ),
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 10,),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: widget.lesson.content.entries.map((entry) {
+                      String title = entry.key;
+                      String pointContent = entry.value;
+                      int index = widget.lesson.content.keys.toList().indexOf(title) + 1;
 
-                  const SizedBox(height: 10,),
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 2.0),
+                            child: Text(
+                              '$index) $title',
+                              style: GoogleFonts.poppins(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 6.0),
+                            child: Text(
+                              pointContent,
+                              style: GoogleFonts.poppins(
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                        ],
+                      );
+                    }).toList(),
+                  ),
+                  // const SizedBox(height: 10,),
                   Card(
                     elevation: 4,
                     color: Colors.orange[500],
@@ -83,19 +128,19 @@ class _ChapitreState extends State<Chapitre> {
                       child: RichText(
                           //textAlign: TextAlign.justify,
                           text: TextSpan(
-                              style: GoogleFonts.poppins(fontSize: 16.5,),
+                              style: GoogleFonts.poppins(fontSize: 16,),
                               children: [
                                 TextSpan(
                                     text: "Message clé : ",
                                     style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w900,
-                                        fontSize: 16,
+                                        // fontSize: 16,
                                     )
                                 ),
                                 TextSpan(
                                   text: widget.lesson.keyMessage,
-                                  style: TextStyle(
-                                    wordSpacing: 2,
+                                  style: const TextStyle(
+                                    wordSpacing: 1,
                                   )
                                 )
                               ]

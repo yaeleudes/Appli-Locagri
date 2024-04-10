@@ -6,7 +6,7 @@ class Lesson {
   Map<String, String> content;
   String thumbnail;
   String keyMessage;
-
+  bool ended;
 
   Lesson ({
     required this.id,
@@ -16,7 +16,7 @@ class Lesson {
     required this.content,
     required this.thumbnail,
     required this.keyMessage,
-
+    this.ended = false
   });
 }
 

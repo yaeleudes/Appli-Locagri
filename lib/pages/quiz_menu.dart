@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:formation_locagri/animation.dart';
 import 'package:formation_locagri/models/Chapter.dart';
-import 'package:formation_locagri/pages/lessons_list.dart';
+import 'package:formation_locagri/models/Quiz.dart';
+import 'package:formation_locagri/pages/quiz.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Cours extends StatefulWidget {
-  const Cours({super.key});
+class QuizMenu extends StatefulWidget {
+  const QuizMenu({super.key});
 
   @override
-  State<Cours> createState() => _CoursState();
+  State<QuizMenu> createState() => _QuizMenuState();
 }
-class _CoursState extends State<Cours> {
 
+class _QuizMenuState extends State<QuizMenu> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -59,7 +59,7 @@ class _CoursState extends State<Cours> {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 3),
                       child: Text(
-                        "Salut, Cher Agriculteur",
+                        "Prêt(e) pour le quiz ?",
                         style: GoogleFonts.poppins(
                           fontSize: 25,
                           fontWeight: FontWeight.w600,
@@ -76,7 +76,7 @@ class _CoursState extends State<Cours> {
                       child: SizedBox(
                         width: size.width,
                         child: Image(
-                          image: const AssetImage("assets/images/taking.png"),
+                          image: const AssetImage("assets/images/quiz.png"),
                           height: size.height / 3,
                           alignment: Alignment.center,
                           fit: BoxFit.contain,
@@ -119,11 +119,12 @@ class _CoursState extends State<Cours> {
                         mainAxisSpacing: 10,
                       ),
                       itemBuilder: (context, index){
+                        List<Quiz> filteredQuiz = listQuiz.where((quiz) => quiz.idChapitre == chapters[index].id).toList();
                         return InkWell(
                           onTap: (){
                             Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => LessonsList(chapters[index]))
+                                MaterialPageRoute(builder: (context) => QuizView(filteredQuiz))
                             );
                           },
                           child: Container(
