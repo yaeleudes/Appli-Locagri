@@ -16,6 +16,7 @@ class QuizView extends StatefulWidget {
 class _QuizState extends State<QuizView> {
   int _currentQuizIndex = 0;
   List<String> _selectedAnswers = [];
+  Set<int> _selectedIndices = <int>{}; 
   int _selectedIndex = -1;
   int _mesPoints = 0;
   bool isEnabled = true;
@@ -23,6 +24,8 @@ class _QuizState extends State<QuizView> {
   Color tileColor = Colors.white;
   Color defaultTileColor = Colors.white;
   bool _allQuizzesValidated = false;
+  int _a = 0;
+  List<int> _validatedIndices = [];
 
   @override
   void initState() {
@@ -30,18 +33,37 @@ class _QuizState extends State<QuizView> {
     _currentQuizIndex = widget.initialQuizIndex;
   }
 
+  Color _getIconColor(int index) {
+    return _selectedIndices.contains(index) ? Colors.blue : Colors.grey;
+  }
+  Color _getTileValidetColor(int index, String label) {
+    if (_validatedIndices.contains(index)) {
+      if (widget.listQuiz[_currentQuizIndex].reponseExacte.contains(label)) {
+        return Colors.green;
+      } else {
+        return Colors.red;
+      }
+    }
+    return defaultTileColor;
+  }
+
+  void _onAnswersSelected(int index, String label) {
+    setState(() {
+      if (_selectedIndices.contains(index)) {
+        _selectedAnswers.remove(label);
+        _selectedIndices.remove(index); 
+      } else {
+        _selectedAnswers.add(label);
+        _selectedIndices.add(index);
+      }
+      print(_selectedAnswers);
+    });
+  }
+
   void _onAnswerSelected(String answer) {
     setState(() {
-      if (widget.listQuiz[_currentQuizIndex].reponseExacte.length > 1) {
-        if (_selectedAnswers.contains(answer)) {
-          _selectedAnswers.remove(answer);
-        } else {
-          _selectedAnswers.add(answer);
-        }
-      } else {
         _selectedAnswers.clear();
         _selectedAnswers.add(answer);
-      }
     });
   }
 
@@ -58,25 +80,29 @@ class _QuizState extends State<QuizView> {
   void _onValidatePressed() {
     _isButtonEnabled = false;
     isEnabled = false;
+     _a = 0;
     setState(() {
       if (widget.listQuiz[_currentQuizIndex].reponseExacte.length > 1) {
-        bool answerCorrect = true;
         
-        if (!(_selectedAnswers.length == widget.listQuiz[_currentQuizIndex].reponseExacte.length && _selectedAnswers.every((element) => widget.listQuiz[_currentQuizIndex].reponseExacte.contains(element)))) {
-          answerCorrect = false;
-          tileColor = Colors.red;
+        bool hasCorrectAnswer = false;
+        _validatedIndices.clear();
+
+        for (int index in _selectedIndices) {
+          String selectedAnswer = widget.listQuiz[_currentQuizIndex].propositionReponse.keys.elementAt(index);
+
+          if (widget.listQuiz[_currentQuizIndex].reponseExacte.contains(selectedAnswer)) {
+            _validatedIndices.add(index); 
+            hasCorrectAnswer = true;
+          } else {
+            _validatedIndices.add(index);
+          }
         }
-        
-        if (answerCorrect) {
+
+        if (hasCorrectAnswer && (_selectedAnswers.length == widget.listQuiz[_currentQuizIndex].reponseExacte.length && _selectedAnswers.every((element) => widget.listQuiz[_currentQuizIndex].reponseExacte.contains(element)))) {
           _mesPoints += 1;
-          tileColor = Colors.green;
         }
       } else {
         bool answerCorrect = true;
-        // if (!(_selectedAnswers[_currentQuizIndex] == widget.listQuiz[_currentQuizIndex].reponseExacte[0])) {
-        //   answerCorrect = false;
-        //   tileColor = Colors.red;
-        // }
 
         for (String correctAnswer in widget.listQuiz[_currentQuizIndex].reponseExacte) {
           if (!_selectedAnswers.contains(correctAnswer)) {
@@ -91,9 +117,46 @@ class _QuizState extends State<QuizView> {
         }
       }
     });
+    
   }
 
   Widget _buildQuestionText() {
+    if(widget.listQuiz[_currentQuizIndex].reponseExacte.length > 1){
+      int a = widget.listQuiz[_currentQuizIndex].reponseExacte.length;
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: 200,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.green[100],
+            ),
+            child: Center(
+              child: Text(
+                widget.listQuiz[_currentQuizIndex].question,
+                style: GoogleFonts.poppins(
+                  color: Colors.black.withOpacity(0.8),
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+          SizedBox(height: 20,),
+          Text(
+            "NB : Pour ce quiz il y a $a réponses exactent !",
+            style: GoogleFonts.poppins(
+              color: Colors.red,
+              fontWeight: FontWeight.bold,
+              fontSize: 14
+            ),
+          )        
+        ],
+      );
+    }
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 200,
@@ -123,13 +186,12 @@ class _QuizState extends State<QuizView> {
       shrinkWrap: true,
       itemCount: widget.listQuiz[_currentQuizIndex].propositionReponse.length,
       itemBuilder: (context, index){
-        List<int> selectedIndices = [];
         String label = widget.listQuiz[_currentQuizIndex].propositionReponse.keys.elementAt(index);
         String value = widget.listQuiz[_currentQuizIndex].propositionReponse.values.elementAt(index);
         
         if (widget.listQuiz[_currentQuizIndex].reponseExacte.length > 1) {
           return Card(
-            color: selectedIndices.contains(index) ? Colors.blue : defaultTileColor,
+            color: _getTileValidetColor(index, label),
             elevation: 4.0,
             child: ListTile(
               title: Text(
@@ -139,37 +201,32 @@ class _QuizState extends State<QuizView> {
                   color: Colors.black,
                 ),
               ),
-              // Modifiez la fonction onTap
               onTap: () {
                 setState(() {
                   isEnabled = true;
-                  if (selectedIndices.contains(index)) {
-                    selectedIndices.remove(index);
-                  } else {
-                    selectedIndices.add(index);
-                  }
-                  _onAnswerSelected(label);
+                  _onAnswersSelected(index, label);
                 });
+                print(widget.listQuiz[index].isSelected);
               },
+              trailing: Icon(Icons.check_circle, color: _getIconColor(index),),
               enabled: isEnabled,
             ),
           );
         } else {
           return Card(
-            color: _selectedIndex == index ? tileColor : defaultTileColor, // utilisez la propriété color du widget Container pour définir la couleur d'arrière-plan du Card
+            color: _selectedIndex == index ? tileColor : defaultTileColor,
             elevation: 4.0,
             child: ListTile(
               title: Text(
                 value,
                 style: GoogleFonts.poppins(
                   fontSize: 16,
-                  color: Colors.black, // utilisez la variable _isSelected pour déterminer la couleur du texte
+                  color: Colors.black,
                 ),
               ),
               onTap: (){
                 setState(() {
-                  // isEnabled = false;
-                  _selectedIndex = index; // basculez la valeur de _isSelected à chaque appui sur le ListTile
+                  _selectedIndex = index;
                   tileColor = Colors.blue;
                   _onAnswerSelected(label);
                   print(_selectedAnswers);
@@ -199,7 +256,6 @@ class _QuizState extends State<QuizView> {
                 style: GoogleFonts.poppins(
                   color: Colors.white,
                   fontSize: 18,
-                  // letterSpacing: 1,
                   fontWeight: FontWeight.w500
                 ),
               )
@@ -211,7 +267,6 @@ class _QuizState extends State<QuizView> {
   }
 
   Widget _buildNextButton() {
-    // _currentQuizIndex == widget.listQuiz.length - 1
     if (_currentQuizIndex == widget.listQuiz.length - 1) {
       return Material(
       color: Colors.green,
@@ -365,257 +420,3 @@ class _QuizState extends State<QuizView> {
     );
   }
 }
-
-/*
-import 'package:flutter/material.dart';
-
-class QuizView extends StatefulWidget {
-  final List<Quiz> listQuiz;
-  final int initialQuizIndex;
-
-  const QuizView({
-    required this.listQuiz,
-    this.initialQuizIndex = 0,
-  });
-
-  @override
-  _QuizViewState createState() => _QuizViewState();
-}
-
-class _QuizViewState extends State<QuizView> {
-  int _currentQuizIndex = 0;
-  Map<int, String> _selectedAnswers = {};
-
-  @override
-  void initState() {
-    super.initState();
-    _currentQuizIndex = widget.initialQuizIndex;
-  }
-
-  void _onAnswerSelected(String answer) {
-    setState(() {
-      _selectedAnswers[widget.listQuiz[_currentQuizIndex].id] = answer;
-    });
-  }
-
-  void _onNextPressed() {
-    setState(() {
-      _currentQuizIndex++;
-    });
-  }
-
-  void _onValidatePressed() {
-    // Vérifier les réponses et afficher les résultats
-  }
-
-  Widget _buildQuestionText() {
-    return Text(
-      widget.listQuiz[_currentQuizIndex].question,
-      style: TextStyle(fontSize: 20),
-    );
-  }
-
-  Widget _buildAnswerList() {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: widget.listQuiz[_currentQuizIndex].propositionReponse.length,
-      itemBuilder: (BuildContext context, int index) {
-        String label = widget.listQuiz[_currentQuizIndex].propositionReponse.keys.elementAt(index);
-        String value = widget.listQuiz[_currentQuizIndex].propositionReponse.values.elementAt(index);
-        return RadioListTile<String>(
-          title: Text(value),
-          value: label,
-          groupValue: _selectedAnswers[widget.listQuiz[_currentQuizIndex].id],
-          onChanged: (String? value) {
-            _onAnswerSelected(value!);
-          },
-        );
-      },
-    );
-  }
-
-  Widget _buildNextButton() {
-    if (_currentQuizIndex == widget.listQuiz.length - 1) {
-      return ElevatedButton(
-        onPressed: _onValidatePressed,
-        child: Text('Valider'),
-      );
-    } else {
-      return ElevatedButton(
-        onPressed: _onNextPressed,
-        child: Text('Suivant'),
-      );
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildQuestionText(),
-        SizedBox(height: 16),
-        _buildAnswerList(),
-        SizedBox(height: 16),
-        _buildNextButton(),
-      ],
-    );
-  }
-}
-
-
-void _onAnswerSelected(String label) {
-    setState(() {
-      if (_selectedAnswers.contains(label)) {
-        _selectedAnswers.remove(label);
-      } else {
-        _selectedAnswers.add(label);
-      }
-    });
-  }
-
-  void _onValidatePressed() {
-    setState(() {
-      bool allAnswersCorrect = true;
-      for (String correctAnswer in widget.quizzes[_currentQuizIndex].reponseExacte) {
-        if (!_selectedAnswers.contains(correctAnswer)) {
-          allAnswersCorrect = false;
-          break;
-        }
-      }
-      if (allAnswersCorrect) {
-        _mesPoints += 2;
-      }
-      widget.quizzes[_currentQuizIndex].valide = true;
-      _currentQuizIndex++;
-      if (_currentQuizIndex < widget.quizzes.length) {
-        _selectedAnswers.clear();
-      } else {
-        _allQuizzesValidated = true;
-      }
-    });
-  }
-
-  Widget _buildQuestionText() {
-    return Text(
-      widget.quizzes[_currentQuizIndex].question,
-      style: TextStyle(fontSize: 20),
-    );
-  }
-
-  Widget _buildAnswerList() {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: widget.quizzes[_currentQuizIndex].propositionReponse.length,
-      itemBuilder: (BuildContext context, int index) {
-        String label = widget.quizzes[_currentQuizIndex].propositionReponse.keys.elementAt(index);
-        String value = widget.quizzes[_currentQuizIndex].propositionReponse.values.elementAt(index);
-        Color tileColor = Colors.white;
-
-        if (widget.quizzes[_currentQuizIndex].valide) {
-          if (widget.quizzes[_currentQuizIndex].reponseExacte.contains(label)) {
-            tileColor = _selectedAnswers.contains(label) ? Colors.green : Colors.grey;
-          } else {
-            tileColor = _selectedAnswers.contains(label) ? Colors.red : Colors.grey;
-          }
-        }
-
-        return ListTile(
-          title: Text(value),
-          tileColor: tileColor,
-          enabled: !widget.quizzes[_currentQuizIndex].valide,
-          onTap: () {
-            _onAnswerSelected(label);
-          },
-        );
-      },
-    );
-  }
-
-  Widget _buildValidateButton() {
-    return ElevatedButton(
-      onPressed: _onValidatePressed,
-      child: Text('Valider'),
-    );
-  }
-
-  Widget _buildNextButton() {
-    return ElevatedButton(
-      onPressed: _currentQuizIndex < widget.quizzes.length - 1 ? _onValidatePressed : () {
-        setState(() {
-          _allQuizzesValidated = true;
-        });
-      },
-      child: Text(_currentQuizIndex < widget.quizzes.length - 1 ? 'Suivant' : 'Terminer'),
-    );
-  }
-
-  Widget _buildQuizView() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildQuestionText(),
-        SizedBox(height: 16),
-        _buildAnswerList(),
-        SizedBox(height: 16),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            _buildValidateButton(),
-            _buildNextButton(),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildResultView() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          'Votre score est de : $_mesPoints',
-          style: TextStyle(fontSize: 24),
-        ),
-        SizedBox(height: 16),
-        ElevatedButton(
-          onPressed: () {
-            setState(() {
-              _currentQuizIndex = 0;
-              _selectedAnswers.clear();
-              _mesPoints = 0;
-              for (Quiz quiz in widget.quizzes) {
-                quiz.valide = false;
-              }
-              _allQuizzesValidated = false;
-            });
-          },
-          child: Text('Rejouer'),
-        ),
-      ],
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Quiz'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (!_allQuizzesValidated)
-              _buildQuizView()
-            else
-              _buildResultView(),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-*/

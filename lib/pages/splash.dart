@@ -34,7 +34,7 @@ class _SplashState extends State<Splash> {
             child: SizedBox(
               height: size.height*0.14,
               width: size.width*0.7,
-              child: Image.asset("assets/images/logo.jpg"),
+              child: Image.asset("assets/logo/logo.png"),
             ),    
         ),
       ),

@@ -5,6 +5,7 @@ class Quiz {
   Map<String, String> propositionReponse;
   List<String> reponseExacte;
   bool valide;
+  bool isSelected;
 
   Quiz({
     required this.id,
@@ -12,7 +13,8 @@ class Quiz {
     required this.question,
     required this.propositionReponse,
     required this.reponseExacte,
-    this.valide = false
+    this.valide = false,
+    this.isSelected = false
   });
 }
 
