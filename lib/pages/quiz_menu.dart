@@ -96,7 +96,7 @@ class _QuizMenuState extends State<QuizMenu> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Les différents chapitres",
+                          "Les quizes par chapitre",
                           style: GoogleFonts.poppins(
                             fontSize: 23,
                             fontWeight: FontWeight.w600,
@@ -108,57 +108,45 @@ class _QuizMenuState extends State<QuizMenu> {
                 const SizedBox(height: 10,),
                 AnimationDelay(
                     delay: 1000,
-                    child: GridView.builder(
-                      itemCount: chapters.length,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: (size.height - 50 - 25) / (4 * 240),
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
-                      ),
-                      itemBuilder: (context, index){
-                        List<Quiz> filteredQuiz = listQuiz.where((quiz) => quiz.idChapitre == chapters[index].id).toList();
-                        return InkWell(
-                          onTap: (){
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => QuizView(filteredQuiz))
-                            );
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.green[100]
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  chapters[index].labelle,
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black.withOpacity(0.7),
-                                  ),
+                    child: Padding(
+                      padding: EdgeInsets.zero,
+                      child: ListView.builder(
+                        padding: EdgeInsets.zero,
+                        itemCount: chapters.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index){
+                          List<Quiz> filteredQuiz = listQuiz.where((quiz) => quiz.idChapitre == chapters[index].id).toList();
+                          return Card(
+                            elevation: 4,
+                            child: ListTile(
+                              onTap: (){
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => QuizView(filteredQuiz))
+                                );
+                              },
+                              title: Text(
+                                chapters[index].labelle,
+                                style: GoogleFonts.poppins(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black.withOpacity(0.7),
                                 ),
-                                const SizedBox(height: 12),
-                                Text(
-                                  chapters[index].title,
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black.withOpacity(0.5)
-                                  ),
-                                  textAlign: TextAlign.start,
-                                )
-                              ],
+                              ),
+                              subtitle: Text(
+                                "${filteredQuiz.length} questions",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black.withOpacity(0.5)
+                                ),
+                                textAlign: TextAlign.start,
+                              ),
+                              trailing: Icon(Icons.check_circle_outline, color: Colors.grey,),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     )
                 ),
               ],

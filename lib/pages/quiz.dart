@@ -1,8 +1,7 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:formation_locagri/models/Quiz.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 
 class QuizView extends StatefulWidget {
   List<Quiz> listQuiz;
@@ -25,21 +24,25 @@ class _QuizState extends State<QuizView> {
   Color defaultTileColor = Colors.white;
   bool _allQuizzesValidated = false;
   int _a = 0;
+  int _nbrQuestions = 0;
   List<int> _validatedIndices = [];
+  String _animeRes = "0";
 
   @override
   void initState() {
     super.initState();
     _currentQuizIndex = widget.initialQuizIndex;
+    _nbrQuestions = widget.listQuiz.length;
   }
 
   Color _getIconColor(int index) {
     return _selectedIndices.contains(index) ? Colors.blue : Colors.grey;
   }
+
   Color _getTileValidetColor(int index, String label) {
     if (_validatedIndices.contains(index)) {
       if (widget.listQuiz[_currentQuizIndex].reponseExacte.contains(label)) {
-        return Colors.green;
+        return Color(0xFF4CAF50);
       } else {
         return Colors.red;
       }
@@ -117,7 +120,12 @@ class _QuizState extends State<QuizView> {
         }
       }
     });
-    
+  }
+
+  void _mAllQuizzesValidated(){
+    setState(() {
+      _allQuizzesValidated = true;
+    });
   }
 
   Widget _buildQuestionText() {
@@ -147,7 +155,7 @@ class _QuizState extends State<QuizView> {
           ),
           SizedBox(height: 20,),
           Text(
-            "NB : Pour ce quiz il y a $a réponses exactent !",
+            "NB : Pour ce quiz il y a $a réponses exactes !",
             style: GoogleFonts.poppins(
               color: Colors.red,
               fontWeight: FontWeight.bold,
@@ -269,14 +277,10 @@ class _QuizState extends State<QuizView> {
   Widget _buildNextButton() {
     if (_currentQuizIndex == widget.listQuiz.length - 1) {
       return Material(
-      color: Colors.green,
+      color: !_isButtonEnabled ? Colors.green : Colors.green[100],
       borderRadius: BorderRadius.circular(10),
       child: InkWell(
-        onTap: (){
-          setState(() {
-            _allQuizzesValidated = true;
-          });
-        },
+        onTap: !_isButtonEnabled ? () => _mAllQuizzesValidated() : null,
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           child: Row(
@@ -297,12 +301,10 @@ class _QuizState extends State<QuizView> {
     );
     } else {
       return Material(
-      color: Colors.green,
+      color: !_isButtonEnabled ? Colors.green : Colors.green[100],
       borderRadius: BorderRadius.circular(10),
       child: InkWell(
-        onTap: (){
-          _onNextPressed();
-        },
+        onTap: !_isButtonEnabled ? () => _onNextPressed() : null,
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           child: Row(
@@ -345,29 +347,87 @@ class _QuizState extends State<QuizView> {
   }
 
   Widget _buildResultView() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          'Votre score est de : $_mesPoints',
-          style: TextStyle(fontSize: 24),
-        ),
-        SizedBox(height: 16),
-        // ElevatedButton(
-        //   onPressed: () {
-        //     setState(() {
-        //       _currentQuizIndex = 0;
-        //       _selectedAnswers.clear();
-        //       _mesPoints = 0;
-        //       for (Quiz quiz in widget.listQuiz) {
-        //         quiz.valide = false;
-        //       }
-        //       _allQuizzesValidated = false;
-        //     });
-        //   },
-        //   child: Text('Rejouer'),
-        // ),
-      ],
+    _animeRes = _mesPoints >= _nbrQuestions/2 ? 'assets/animations/congrate.json' : 'assets/animations/fail.json';
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: 600,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: _mesPoints >= _nbrQuestions/2 ? Colors.green[100] : Colors.red[100],
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Lottie.asset(_animeRes),
+                // SizedBox(height: 0),
+                Text(
+                  'Score : $_mesPoints/$_nbrQuestions',
+                  style: GoogleFonts.poppins(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: _mesPoints >= _nbrQuestions/2 ? Colors.green : Colors.red
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  "Le quiz est terminé.",
+                  style: GoogleFonts.poppins(
+                    color: Colors.black,
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                
+              ],
+            ),
+          ),
+          SizedBox(height: 20,),
+          Material(
+            color:Colors.green,
+            borderRadius: BorderRadius.circular(10),
+            child: InkWell(
+              onTap: () {
+                setState(() {
+                  isEnabled = true;
+                  _isButtonEnabled = true;
+                  _currentQuizIndex = 0;
+                  _selectedAnswers.clear();
+                  _selectedIndices.clear();
+                  _allQuizzesValidated = false;
+                  _validatedIndices.clear();
+                  _mesPoints = 0;
+                  _a = 0;
+                  for (Quiz quiz in widget.listQuiz) {
+                    quiz.valide = false;
+                  }
+                  _allQuizzesValidated = false;
+                });
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      "Rejouer",
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -383,9 +443,10 @@ class _QuizState extends State<QuizView> {
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white,)
         ),
         title: Text(
-          "Tous les quiz",
+          "Quiz ${_currentQuizIndex + 1} / ${widget.listQuiz.length}",
           style: GoogleFonts.poppins(
             color: Colors.white,
+            fontWeight: FontWeight.bold
           ),
         ),
         actions: [
