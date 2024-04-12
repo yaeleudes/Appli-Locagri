@@ -1,4 +1,3 @@
-import 'package:formation_locagri/models/Chapter.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../models/User.dart';

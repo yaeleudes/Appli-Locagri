@@ -22,7 +22,7 @@ List<Quiz> listQuiz = [
   // Chapitre 1
   Quiz(
     id: 0, 
-    idChapitre: 0, 
+    idChapitre: 1, 
     question: "Le changement climatique représente :", 
     propositionReponse: {
       "a" : "a)	Le passage de l’harmattan à la saison des pluies",
@@ -34,7 +34,7 @@ List<Quiz> listQuiz = [
   ),
   Quiz(
     id: 1, 
-    idChapitre: 0, 
+    idChapitre: 1, 
     question: "Dans un paysage sous l’effet du changement, les parcelles de cacao produisent un bon rendement :", 
     propositionReponse: {
       "a" : "Vrai",
@@ -44,7 +44,7 @@ List<Quiz> listQuiz = [
   ),
   Quiz(
     id: 2, 
-    idChapitre: 0, 
+    idChapitre: 1, 
     question: "Lequel des éléments ci-dessous n’est pas une cause du changement climatique ?", 
     propositionReponse: {
       "a" : "a)	Les gaz d’échappement des voitures",
@@ -56,7 +56,7 @@ List<Quiz> listQuiz = [
   ),
   Quiz(
     id: 3, 
-    idChapitre: 0, 
+    idChapitre: 1, 
     question: "Cochez les conséquences du changement climatique sur la cacaoculture :", 
     propositionReponse: {
       "a" : "a)	Augmentation de la productivité des cacaoyers",
@@ -70,7 +70,7 @@ List<Quiz> listQuiz = [
   // Chapitre 2
   Quiz(
     id: 4, 
-    idChapitre: 1, 
+    idChapitre: 2, 
     question: "Les forêts sont importantes pour les humains car elles :", 
     propositionReponse: {
       "a" : "a)	Fournissent des ressources naturelles, telles que le bois, les fruits et des herbes médicinales",
@@ -82,7 +82,7 @@ List<Quiz> listQuiz = [
   ),
   Quiz(
     id: 5, 
-    idChapitre: 1, 
+    idChapitre: 2, 
     question: "La disparition des forêts n'est pas seulement une perte pour la nature. Elle affecte profondément le climat local, la fertilité des sols et la régularité des pluies :", 
     propositionReponse: {
       "a" : "Vrai",
@@ -92,7 +92,7 @@ List<Quiz> listQuiz = [
   ),
   Quiz(
     id: 6, 
-    idChapitre: 1, 
+    idChapitre: 2, 
     question: "L’extension des terres agricole notamment pour la cacaoculture n’est pas une cause de la perte des forêts ivoiriennes :", 
     propositionReponse: {
       "a" : "Vrai",
@@ -102,7 +102,7 @@ List<Quiz> listQuiz = [
   ),
   Quiz(
     id: 7, 
-    idChapitre: 1, 
+    idChapitre: 2, 
     question: "Tout cacao produit dans une forêt classée, une réserve naturelle ou en convertissant des forêts en terres agricoles pour le cacao ne sera pas acheter conformément à la nouvelle règlementation de l’UE sur la déforestation :", 
     propositionReponse: {
       "a" : "Vrai",
@@ -112,7 +112,7 @@ List<Quiz> listQuiz = [
   ),
   Quiz(
     id: 8, 
-    idChapitre: 1, 
+    idChapitre: 2, 
     question: "Quelles sont les bonnes pratiques à adopter ?", 
     propositionReponse: {
       "a" : "a)	Reboiser les zones dégradées et créer de nouvelles forêts",
@@ -126,7 +126,7 @@ List<Quiz> listQuiz = [
   // Chapitre 3
   Quiz(
     id: 9, 
-    idChapitre: 2, 
+    idChapitre: 3, 
     question: "L’agroforesterie consiste à :", 
     propositionReponse: {
       "a" : "a)	Associer les cultures et les arbres sur une même parcelle",
@@ -138,7 +138,7 @@ List<Quiz> listQuiz = [
   ),
   Quiz(
     id: 10, 
-    idChapitre: 2, 
+    idChapitre: 3, 
     question: "D’après la norme ARS 1000, une plantation doit avoir une densité minimale de :", 
     propositionReponse: {
       "a" : "a)	800 cacaoyers par hectare, accompagnée de 18 à 50 arbres compagnons par hectare",
@@ -150,7 +150,7 @@ List<Quiz> listQuiz = [
   ),
   Quiz(
     id: 11, 
-    idChapitre: 2, 
+    idChapitre: 3, 
     question: "Il existe combien de type de systèmes agroforestiers en cacaoculture ?", 
     propositionReponse: {
       "a" : "a) 3 Systèmes",
@@ -162,7 +162,7 @@ List<Quiz> listQuiz = [
   ),
   Quiz(
     id: 12, 
-    idChapitre: 2, 
+    idChapitre: 3, 
     question: "Les arbres forestiers dans les plantations :", 
     propositionReponse: {
       "a" : "a)	Tuent les cacaoyers",
@@ -174,7 +174,7 @@ List<Quiz> listQuiz = [
   ),
   Quiz(
     id: 13, 
-    idChapitre: 2, 
+    idChapitre: 3, 
     question: "L’agroforesterie nuit à la cacaoculture et ne fournit aucun bénéfice au producteur qui la pratique :", 
     propositionReponse: {
       "a" : "Vrai",
@@ -186,7 +186,7 @@ List<Quiz> listQuiz = [
   // Chapitre 4
   Quiz(
     id: 14, 
-    idChapitre: 3, 
+    idChapitre: 4, 
     question: "La phase de sensibilisation du producteur sur l’agroforesterie n’est pas nécessaire parce que le producteur n’a pas besoin de savoir pourquoi il doit pratiquer l’agroforesterie :", 
     propositionReponse: {
       "a" : "Vrai",
@@ -196,7 +196,7 @@ List<Quiz> listQuiz = [
   ),
   Quiz(
     id: 15, 
-    idChapitre: 3, 
+    idChapitre: 4, 
     question: "Le système agroforestier est choisi par le technicien ainsi que les arbres forestiers qui seront associés sans la consultation préalable du producteur :", 
     propositionReponse: {
       "a" : "Vrai",
@@ -206,7 +206,7 @@ List<Quiz> listQuiz = [
   ),
   Quiz(
     id: 16, 
-    idChapitre: 3, 
+    idChapitre: 4, 
     question: "Les trous de plantation des arbres doivent avoir une dimension de :", 
     propositionReponse: {
       "a" : "a)	30 cm x 40 cm x 40 cm",
@@ -217,7 +217,7 @@ List<Quiz> listQuiz = [
   ),
   Quiz(
     id: 17, 
-    idChapitre: 3, 
+    idChapitre: 4, 
     question: "Lors de l’entretien de la parcelle et des arbres, tailler un arbre consiste à :", 
     propositionReponse: {
       "a" : "a)	Supprimer les parties inutiles (branches mortes, malades, basses, en surnombre) de l’arbre",
@@ -228,7 +228,7 @@ List<Quiz> listQuiz = [
   ),
   Quiz(
     id: 18, 
-    idChapitre: 3, 
+    idChapitre: 4, 
     question: "Dans un systeme agroforestier A base de cacao, il faut :", 
     propositionReponse: {
       "a" : "a)	Laisser pousser les arbres naturellement",
@@ -241,7 +241,7 @@ List<Quiz> listQuiz = [
   // Chapitre 5
   Quiz(
     id: 19, 
-    idChapitre: 4, 
+    idChapitre: 5, 
     question: "Lorsque je plante un arbre dans ma parcelle de cacao, cet arbre appartient à la coopérative à laquelle j’appartiens :", 
     propositionReponse: {
       "a" : "Vrai",
@@ -251,7 +251,7 @@ List<Quiz> listQuiz = [
   ),
   Quiz(
     id: 20, 
-    idChapitre: 4, 
+    idChapitre: 5, 
     question: "A qui appartient un arbre planté par un producteur sur sa parcelle de cacao dont il est propriétaire :", 
     propositionReponse: {
       "a" : "a)	Au chef du village",
@@ -262,7 +262,7 @@ List<Quiz> listQuiz = [
   ),
   Quiz(
     id: 21, 
-    idChapitre: 4, 
+    idChapitre: 5, 
     question: "Lorsque les arbres forestiers présents sur ma parcelle de cacao arrivent à maturité, je peux :", 
     propositionReponse: {
       "a" : "a)	Les couper pour les vendre sans autorisation",
@@ -273,7 +273,7 @@ List<Quiz> listQuiz = [
   ),
   Quiz(
     id: 22, 
-    idChapitre: 4, 
+    idChapitre: 5, 
     question: "Lorsqu’un exploitant forestier se rend sur ma parcelle pour couper des arbres, il n’est pas tenu d’avoir mon autorisation :", 
     propositionReponse: {
       "a" : "Vrai",
@@ -283,7 +283,7 @@ List<Quiz> listQuiz = [
   ),
   Quiz(
     id: 23, 
-    idChapitre: 4, 
+    idChapitre: 5, 
     question: "Quelle est la sanction pour quiconque exploite une ressource ligneuse sans le consentement de son propriétaire ?", 
     propositionReponse: {
       "a" : "a)	Aucune sanction n’est prévue",
@@ -296,7 +296,7 @@ List<Quiz> listQuiz = [
   // Chapitre 6
   Quiz(
     id: 19, 
-    idChapitre: 5, 
+    idChapitre: 6, 
     question: "Qu’est-ce que les paiements pour Services Environnementaux ?", 
     propositionReponse: {
       "a" : "a)	Payer le producteur qui a un bon rendement",
@@ -307,7 +307,7 @@ List<Quiz> listQuiz = [
   ),
   Quiz(
     id: 20, 
-    idChapitre: 5, 
+    idChapitre: 6, 
     question: " Qui peut bénéficier du Paiements pour Services Environnementaux ?", 
     propositionReponse: {
       "a" : "a)	Tous les producteurs",
@@ -318,7 +318,7 @@ List<Quiz> listQuiz = [
   ),
   Quiz(
     id: 21, 
-    idChapitre: 5, 
+    idChapitre: 6, 
     question: "Le producteur qui dispose d’un contrat PSE reçoit le paiement à la signature du contrat PSE :", 
     propositionReponse: {
       "a" : "Vrai",
@@ -328,7 +328,7 @@ List<Quiz> listQuiz = [
   ),
   Quiz(
     id: 22, 
-    idChapitre: 5, 
+    idChapitre: 6, 
     question: "Le programme PSE recommande une densité de :", 
     propositionReponse: {
       "a" : "a)	40 arbres forestiers par hectare",
@@ -339,7 +339,7 @@ List<Quiz> listQuiz = [
   ),
   Quiz(
     id: 23, 
-    idChapitre: 5, 
+    idChapitre: 6, 
     question: "Apres quelle activité le paiement est-il réalisé ?", 
     propositionReponse: {
       "a" : "a)	Le monitoring ",

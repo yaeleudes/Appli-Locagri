@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:formation_locagri/animation.dart';
-import 'package:formation_locagri/controllers/userController.dart';
+import 'package:formation_locagri/controllers/dao.dart';
 import 'package:formation_locagri/models/Chapter.dart';
 import 'package:formation_locagri/models/User.dart';
 import 'package:formation_locagri/pages/lessons_list.dart';
@@ -14,6 +14,7 @@ class Cours extends StatefulWidget {
 }
 class _CoursState extends State<Cours> {
   int _score = 0;
+  late User user;
 
   @override
   void initState() {
@@ -22,8 +23,7 @@ class _CoursState extends State<Cours> {
   }
 
   Future<void> _loadUserScore() async {
-    final UserController userController = UserController();
-    final User user = await userController.getUser(1);
+    user = await Dao.getUser(1);
     setState(() {
       _score = user.score;
     });

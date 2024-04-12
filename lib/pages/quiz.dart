@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:formation_locagri/controllers/dao.dart';
+import 'package:formation_locagri/models/Chapter.dart';
 import 'package:formation_locagri/models/Quiz.dart';
 import 'package:formation_locagri/models/User.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
-import 'package:formation_locagri/controllers/userController.dart';
 
 class QuizView extends StatefulWidget {
   List<Quiz> listQuiz;
+  int id;
+  String labelle;
   final int initialQuizIndex;
-  QuizView(this.listQuiz, {this.initialQuizIndex = 0, super.key});
+  QuizView(this.listQuiz, this.id, this.labelle, {this.initialQuizIndex = 0, super.key});
 
   @override
   State<QuizView> createState() => _QuizState();
@@ -20,6 +24,7 @@ class _QuizState extends State<QuizView> {
   Set<int> _selectedIndices = <int>{}; 
   int _selectedIndex = -1;
   int _score = 0;
+  int _idChapter = 0;
   int _mesPoints = 0;
   bool isEnabled = true;
   bool _isButtonEnabled = true;
@@ -30,35 +35,34 @@ class _QuizState extends State<QuizView> {
   int _nbrQuestions = 0;
   List<int> _validatedIndices = [];
   String _animeRes = "0";
-  UserController userController = UserController();
+  final box = GetStorage();
   late User user;
+  late Chapter chapter;
 
   @override
   void initState() {
     super.initState();
+    // _allQuizzesValidated = box.read(widget.labelle) ?? false;
     _currentQuizIndex = widget.initialQuizIndex;
     _nbrQuestions = widget.listQuiz.length;
     _loadUser();
   }
 
   Future<void> _loadUser() async {
-    user = await userController.getUser(1);
+    user = await Dao.getUser(1);
+    chapter = await Dao.getChapterById(widget.id);
     setState(() {
       _score = user.score;
+      _idChapter = chapter.id;
     });
   }
 
   Future<void> _incrementScore() async {
-    await userController.updateUser(User(id: 1, score: _score + 1));
-
-    // Chargez l'utilisateur mis à jour à partir de la base de données
-    User updatedUser = await userController.getUser(1);
-
-    // Mettez à jour la variable _score avec la valeur de score de l'utilisateur mis à jour
+    await Dao.updateUser(User(id: 1, score: _score + 1));
+    User updatedUser = await Dao.getUser(1);
     setState(() {
       _score = updatedUser.score;
     });
-
   }
 
   Color _getIconColor(int index) {
@@ -130,7 +134,9 @@ class _QuizState extends State<QuizView> {
 
         if (hasCorrectAnswer && (_selectedAnswers.length == widget.listQuiz[_currentQuizIndex].reponseExacte.length && _selectedAnswers.every((element) => widget.listQuiz[_currentQuizIndex].reponseExacte.contains(element)))) {
           _mesPoints += 1;
-          _incrementScore();
+          if ((box.read(widget.labelle) ?? false) == false) {
+            _incrementScore();
+          }
         }
       } else {
         bool answerCorrect = true;
@@ -144,17 +150,21 @@ class _QuizState extends State<QuizView> {
         }
         if (answerCorrect) {
           _mesPoints += 1;
-          _incrementScore();
+          if ((box.read(widget.labelle) ?? false) == false) {
+            _incrementScore();
+          }
           tileColor = Colors.green;
         }
       }
     });
   }
 
-  void _mAllQuizzesValidated(){
+  Future<void> _mAllQuizzesValidated() async {
+    await Dao.updateChapter(_idChapter, 'end', _allQuizzesValidated.toString());
     setState(() {
       _allQuizzesValidated = true;
     });
+    box.write(widget.labelle, _allQuizzesValidated);
   }
 
   Widget _buildQuestionText() {

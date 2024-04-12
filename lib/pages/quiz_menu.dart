@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:formation_locagri/animation.dart';
-import 'package:formation_locagri/controllers/userController.dart';
+import 'package:formation_locagri/controllers/dao.dart';
 import 'package:formation_locagri/models/Chapter.dart';
 import 'package:formation_locagri/models/Quiz.dart';
 import 'package:formation_locagri/models/User.dart';
 import 'package:formation_locagri/pages/quiz.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class QuizMenu extends StatefulWidget {
@@ -16,16 +17,21 @@ class QuizMenu extends StatefulWidget {
 
 class _QuizMenuState extends State<QuizMenu> {
   int _score = 0;
+  late User user;
+  bool _allQuizzesValidated = false;
+  final box = GetStorage();
+  
 
   @override
   void initState() {
     super.initState();
     _loadUserScore();
+    _allQuizzesValidated = box.read('allQuizzesValidated') ?? false;
   }
 
+
   Future<void> _loadUserScore() async {
-    final UserController userController = UserController();
-    final User user = await userController.getUser(1);
+    user = await Dao.getUser(1);
     setState(() {
       _score = user.score;
     });
@@ -133,14 +139,15 @@ class _QuizMenuState extends State<QuizMenu> {
                         itemCount: chapters.length,
                         shrinkWrap: true,
                         itemBuilder: (context, index){
-                          List<Quiz> filteredQuiz = listQuiz.where((quiz) => quiz.idChapitre == chapters[index].id-1).toList();
+                          // _idChapter = ;
+                          List<Quiz> filteredQuiz = listQuiz.where((quiz) => quiz.idChapitre == chapters[index].id).toList();
                           return Card(
                             elevation: 4,
                             child: ListTile(
                               onTap: (){
                                 Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => QuizView(filteredQuiz))
+                                    MaterialPageRoute(builder: (context) => QuizView(filteredQuiz, chapters[index].id, chapters[index].labelle))
                                 );
                               },
                               title: Text(
@@ -160,7 +167,8 @@ class _QuizMenuState extends State<QuizMenu> {
                                 ),
                                 textAlign: TextAlign.start,
                               ),
-                              trailing: Icon(Icons.check_circle_outline, color: Colors.grey,),
+                              // trailing: Icon(Icons.check_circle_outline, color: Colors.grey,),
+                              trailing: (box.read(chapters[index].labelle) ?? false) ? Icon(Icons.check_circle, color: Colors.green,) :Icon(Icons.check_circle_outline, color: Colors.grey,),
                             ),
                           );
                         },

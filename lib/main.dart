@@ -2,10 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:formation_locagri/controllers/chaptersController.dart';
-import 'package:formation_locagri/controllers/userController.dart';
+import 'package:formation_locagri/controllers/dao.dart';
 import 'package:formation_locagri/models/Chapter.dart';
+import 'package:formation_locagri/models/User.dart';
 import 'package:formation_locagri/pages/splash.dart';
+import 'package:get_storage/get_storage.dart';
 
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,13 +14,11 @@ Future<void> main() async{
     FlutterNativeSplash.remove();
   });
 
-  
-  UserController userController = UserController();
-  ChapterController chapterController = ChapterController();
-  // final Future <Database> dataBase = userController.database();
-  
-  await userController.ensureUserExists(1);
-  await chapterController.addChapters(chapters);
+  User user = User(id: 1, score: 0);
+  await Dao.addUser(user);
+  await Dao.addChapters(chapters);
+
+  await GetStorage.init();
 
   runApp(MyApp());
 }
