@@ -1,17 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:formation_locagri/animation.dart';
+import 'package:formation_locagri/controllers/userController.dart';
 import 'package:formation_locagri/models/Chapter.dart';
+import 'package:formation_locagri/models/User.dart';
 import 'package:formation_locagri/pages/lessons_list.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Cours extends StatefulWidget {
-  const Cours({super.key});
+  Cours({super.key});
 
   @override
   State<Cours> createState() => _CoursState();
 }
 class _CoursState extends State<Cours> {
+  int _score = 0;
 
+  @override
+  void initState() {
+    super.initState();
+    _loadUserScore();
+  }
+
+  Future<void> _loadUserScore() async {
+    final UserController userController = UserController();
+    final User user = await userController.getUser(1);
+    setState(() {
+      _score = user.score;
+    });
+  }
+  
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -28,7 +45,7 @@ class _CoursState extends State<Cours> {
         ),
         actions: [
           Center(child: Text(
-            "0",
+            "$_score",
             style: GoogleFonts.poppins(
               color: Colors.white,
               // fontSize: size.width*0.044

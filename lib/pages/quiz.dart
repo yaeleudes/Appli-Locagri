@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:formation_locagri/models/Quiz.dart';
+import 'package:formation_locagri/models/User.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:formation_locagri/controllers/userController.dart';
 
 class QuizView extends StatefulWidget {
   List<Quiz> listQuiz;
@@ -17,6 +19,7 @@ class _QuizState extends State<QuizView> {
   List<String> _selectedAnswers = [];
   Set<int> _selectedIndices = <int>{}; 
   int _selectedIndex = -1;
+  int _score = 0;
   int _mesPoints = 0;
   bool isEnabled = true;
   bool _isButtonEnabled = true;
@@ -27,12 +30,35 @@ class _QuizState extends State<QuizView> {
   int _nbrQuestions = 0;
   List<int> _validatedIndices = [];
   String _animeRes = "0";
+  UserController userController = UserController();
+  late User user;
 
   @override
   void initState() {
     super.initState();
     _currentQuizIndex = widget.initialQuizIndex;
     _nbrQuestions = widget.listQuiz.length;
+    _loadUser();
+  }
+
+  Future<void> _loadUser() async {
+    user = await userController.getUser(1);
+    setState(() {
+      _score = user.score;
+    });
+  }
+
+  Future<void> _incrementScore() async {
+    await userController.updateUser(User(id: 1, score: _score + 1));
+
+    // Chargez l'utilisateur mis à jour à partir de la base de données
+    User updatedUser = await userController.getUser(1);
+
+    // Mettez à jour la variable _score avec la valeur de score de l'utilisateur mis à jour
+    setState(() {
+      _score = updatedUser.score;
+    });
+
   }
 
   Color _getIconColor(int index) {
@@ -81,6 +107,7 @@ class _QuizState extends State<QuizView> {
   }
 
   void _onValidatePressed() {
+    
     _isButtonEnabled = false;
     isEnabled = false;
      _a = 0;
@@ -103,6 +130,7 @@ class _QuizState extends State<QuizView> {
 
         if (hasCorrectAnswer && (_selectedAnswers.length == widget.listQuiz[_currentQuizIndex].reponseExacte.length && _selectedAnswers.every((element) => widget.listQuiz[_currentQuizIndex].reponseExacte.contains(element)))) {
           _mesPoints += 1;
+          _incrementScore();
         }
       } else {
         bool answerCorrect = true;
@@ -116,6 +144,7 @@ class _QuizState extends State<QuizView> {
         }
         if (answerCorrect) {
           _mesPoints += 1;
+          _incrementScore();
           tileColor = Colors.green;
         }
       }
@@ -354,7 +383,7 @@ class _QuizState extends State<QuizView> {
         children: [
           Container(
             width: MediaQuery.of(context).size.width,
-            height: 600,
+            height: MediaQuery.of(context).size.height / 2,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               color: _mesPoints >= _nbrQuestions/2 ? Colors.green[100] : Colors.red[100],
@@ -363,7 +392,10 @@ class _QuizState extends State<QuizView> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Lottie.asset(_animeRes),
+                Lottie.asset(
+                  _animeRes,
+                  height: 200
+                ),
                 // SizedBox(height: 0),
                 Text(
                   'Score : $_mesPoints/$_nbrQuestions',
@@ -451,7 +483,8 @@ class _QuizState extends State<QuizView> {
         ),
         actions: [
           Center(child: Text(
-            _mesPoints.toString(),
+            "${_score}",
+            // _mesPoints.toString(),
             style: GoogleFonts.poppins(
               color: Colors.white,
               // fontSize: size.width*0.044

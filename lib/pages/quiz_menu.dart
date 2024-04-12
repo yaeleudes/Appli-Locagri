@@ -1,18 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:formation_locagri/animation.dart';
+import 'package:formation_locagri/controllers/userController.dart';
 import 'package:formation_locagri/models/Chapter.dart';
 import 'package:formation_locagri/models/Quiz.dart';
+import 'package:formation_locagri/models/User.dart';
 import 'package:formation_locagri/pages/quiz.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class QuizMenu extends StatefulWidget {
-  const QuizMenu({super.key});
+  QuizMenu({super.key});
 
   @override
   State<QuizMenu> createState() => _QuizMenuState();
 }
 
 class _QuizMenuState extends State<QuizMenu> {
+  int _score = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserScore();
+  }
+
+  Future<void> _loadUserScore() async {
+    final UserController userController = UserController();
+    final User user = await userController.getUser(1);
+    setState(() {
+      _score = user.score;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -28,7 +46,7 @@ class _QuizMenuState extends State<QuizMenu> {
         ),
         actions: [
           Center(child: Text(
-            "0",
+            "$_score",
             style: GoogleFonts.poppins(
               color: Colors.white,
               // fontSize: size.width*0.044
@@ -115,7 +133,7 @@ class _QuizMenuState extends State<QuizMenu> {
                         itemCount: chapters.length,
                         shrinkWrap: true,
                         itemBuilder: (context, index){
-                          List<Quiz> filteredQuiz = listQuiz.where((quiz) => quiz.idChapitre == chapters[index].id).toList();
+                          List<Quiz> filteredQuiz = listQuiz.where((quiz) => quiz.idChapitre == chapters[index].id-1).toList();
                           return Card(
                             elevation: 4,
                             child: ListTile(

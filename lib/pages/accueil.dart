@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:formation_locagri/pages/quiz_menu.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../animation.dart';
+import 'package:formation_locagri/animation.dart';
 import 'cours.dart';
 // import 'package:flutter/services.dart';
 
@@ -121,7 +121,7 @@ class _AccueilState extends State<Accueil> {
                                 onTap: (){
                                   Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (context) => const Cours())
+                                      MaterialPageRoute(builder: (context) => Cours())
                                   );
                                 },
                                 child: Container(
@@ -151,7 +151,7 @@ class _AccueilState extends State<Accueil> {
                                 onTap: (){
                                   Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (context) => const QuizMenu())
+                                      MaterialPageRoute(builder: (context) => QuizMenu())
                                   );
                                 },
                                 child: Container(

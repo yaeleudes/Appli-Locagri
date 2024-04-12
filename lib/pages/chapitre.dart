@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:formation_locagri/controllers/userController.dart';
 import 'package:formation_locagri/models/Lesson.dart';
+import 'package:formation_locagri/models/User.dart';
 import 'package:full_screen_image/full_screen_image.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 
 class Chapitre extends StatefulWidget {
   Lesson lesson;
@@ -13,6 +16,21 @@ class Chapitre extends StatefulWidget {
 }
 
 class _ChapitreState extends State<Chapitre> {
+  int _score = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserScore();
+  }
+
+  Future<void> _loadUserScore() async {
+    final UserController userController = UserController();
+    final User user = await userController.getUser(1);
+    setState(() {
+      _score = user.score;
+    });
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -38,7 +56,7 @@ class _ChapitreState extends State<Chapitre> {
         ),
         actions: [
           Center(child: Text(
-            "0",
+            "$_score",
             style: GoogleFonts.poppins(
               color: Colors.white,
               // fontSize: size.width*0.044

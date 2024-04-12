@@ -24,7 +24,7 @@ List<Lesson> lessons = [
   //Leçons du chapitre 1
   Lesson(
       id: 0,
-      idChapter: 0,
+      idChapter: 1,
       title: "1.1. Définition du changement climatique",
       description: "Expliquer en termes simples ce qu'est le changement climatique, en utilisant des exemples locaux.",
       content: {
@@ -38,7 +38,7 @@ List<Lesson> lessons = [
   ),
   Lesson(
       id: 1,
-      idChapter: 0,
+      idChapter: 1,
       title: "1.2 Causes de changement climatique",
       description: "Illustrer avec des activités quotidiennes connues des producteurs, comme la coupe des arbres, la combustion de bois ou de carburants fossiles.",
       content: {
@@ -52,7 +52,7 @@ List<Lesson> lessons = [
   ),
   Lesson(
       id: 2,
-      idChapter: 0,
+      idChapter: 1,
       title: "1.3. Conséquences du changement climatique sur la cacaoculture",
       description: "Des exemples concrets de comment les variations climatiques affectent les récoltes de cacao.",
       content: {
@@ -67,7 +67,7 @@ List<Lesson> lessons = [
   //Leçons du chapitre 2
   Lesson(
       id: 3,
-      idChapter: 1,
+      idChapter: 2,
       title: "2.1 Importance des forêts et les Services écosystémiques des forêts",
       description: "Expliquer comment les forêts aident à réguler le climat et à préserver l'eau",
       content: {
@@ -80,7 +80,7 @@ List<Lesson> lessons = [
   ),
   Lesson(
       id: 4,
-      idChapter: 1,
+      idChapter: 2,
       title: "2.2 Situation des forêts en Côte d'Ivoire",
       description: "Utiliser des cartes pour montrer les changements dans les couvertures forestières en Côte d’Ivoire ",
       content: {
@@ -92,7 +92,7 @@ List<Lesson> lessons = [
   ),
   Lesson(
       id: 5,
-      idChapter: 1,
+      idChapter: 2,
       title: "2.3 Causes de la déforestation en Côte d’Ivoire ",
       description: "Lier les activités agricoles et autres activités humaines à la perte de forêts.",
       content: {
@@ -105,7 +105,7 @@ List<Lesson> lessons = [
   ),
   Lesson(
       id: 6,
-      idChapter: 1,
+      idChapter: 2,
       title: "2.4 Conséquences de la déforestation sur les plantations de cacao",
       description: "Démontrer avec images montrant une succession des conséquences déforestation, en se concentrant sur la production de cacao.",
       content: {
@@ -118,7 +118,7 @@ List<Lesson> lessons = [
   ),
   Lesson(
       id: 7,
-      idChapter: 1,
+      idChapter: 2,
       title: "2.5 Règlementation de l'UE sur la déforestation",
       description: "Montrer l’implication de la réglementation de l’UE sur la déforestation pour les producteurs de cacao.",
       content: {
@@ -131,7 +131,7 @@ List<Lesson> lessons = [
   ),
   Lesson(
       id: 8,
-      idChapter: 1,
+      idChapter: 2,
       title: "2.6 Solutions basées sur les forêts lutter contre le changement climatique",
       description: "Présenter des techniques pratiques de conservation et de reforestation et d’agroforesterie.",
       content: {
@@ -144,7 +144,7 @@ List<Lesson> lessons = [
   //Leçons du chapitre 3
   Lesson(
       id: 9,
-      idChapter: 2,
+      idChapter: 3,
       title: "3.1 Qu’est-ce que l’agroforesterie en cacaoculture",
       description: "Donner une définition de l’agroforesterie en cacaoculture.",
       content: {
@@ -158,7 +158,7 @@ List<Lesson> lessons = [
   ),
   Lesson(
       id: 10, 
-      idChapter: 2, 
+      idChapter: 3, 
       title: "3.2 La définition de l’agroforesterie selon la norme ARS1000 et recommandations de Barry Callebaut",
       description: "Définir l’agroforesterie selon la norme ARS1000 et recommandations de Barry Callebaut.",
       content: {
@@ -171,7 +171,7 @@ List<Lesson> lessons = [
   ),
   Lesson(
       id: 11,
-      idChapter: 2,
+      idChapter: 3,
       title: "3.3 Les différents systèmes d’agroforesterie",
       description: "",
       content: {
@@ -185,7 +185,7 @@ List<Lesson> lessons = [
   ),
   Lesson(
       id: 12,
-      idChapter: 2,
+      idChapter: 3,
       title: "3.4 Les différents types d'arbres forestiers compagnons des cacaoyers",
       description: "",
       content: {
@@ -197,7 +197,7 @@ List<Lesson> lessons = [
   ),
   Lesson(
       id: 13,
-      idChapter: 2,
+      idChapter: 3,
       title: "3.5 Les Avantage de l’agroforesterie pour le producteur",
       description: "",
       content: {
@@ -212,7 +212,7 @@ List<Lesson> lessons = [
   //Leçons du chapitre 4
   Lesson(
       id: 14,
-      idChapter: 3,
+      idChapter: 4,
       title: "4.1 Sensibilisation des producteurs sur l’importance de l’agroforesterie",
       description: "",
       content: {
@@ -224,7 +224,7 @@ List<Lesson> lessons = [
   ),
   Lesson(
       id: 15,
-      idChapter: 3,
+      idChapter: 4,
       title: "4.2 Diagnostic participatif de parcelle de cacao avant la mise en place du SAF",
       description: "",
       content: {
@@ -237,7 +237,7 @@ List<Lesson> lessons = [
   ),
   Lesson(
       id: 16,
-      idChapter: 3,
+      idChapter: 4,
       title: "4.3 Choix du SAF et des arbres forestiers compagnons",
       description: "",
       content: {
@@ -251,7 +251,7 @@ List<Lesson> lessons = [
   ),
   Lesson(
       id: 17,
-      idChapter: 3,
+      idChapter: 4,
       title: "4.4 Mise en place du système agroforestier",
       description: "",
       content: {
@@ -264,7 +264,7 @@ List<Lesson> lessons = [
   ),
   Lesson(
       id: 18,
-      idChapter: 3,
+      idChapter: 4,
       title: "4.5 Gestion du système agroforestier après la mise en place du SAF",
       description: "",
       content: {
@@ -278,7 +278,7 @@ List<Lesson> lessons = [
   //Leçons du chapitre 5
   Lesson(
       id: 19,
-      idChapter: 4,
+      idChapter: 5,
       title: "5.1 Code forestier et la Propriété des arbres dans la plantation de cacao",
       description: "",
       content: {
@@ -292,7 +292,7 @@ List<Lesson> lessons = [
   ),
   Lesson(
       id: 20,
-      idChapter: 4,
+      idChapter: 5,
       title: "5.2 Conditions d'exploitation des arbres forestiers dans le champ du producteur",
       description: "",
       content: {
@@ -305,7 +305,7 @@ List<Lesson> lessons = [
   ),
   Lesson(
       id: 21,
-      idChapter: 4,
+      idChapter: 5,
       title: "5.3 Sanctions prévues dans le nouveau code forestier",
       description: "",
       content: {
@@ -320,7 +320,7 @@ List<Lesson> lessons = [
   //Leçons du chapitre 6
   Lesson(
       id: 22,
-      idChapter: 5,
+      idChapter: 6,
       title: "6.1 Définition et contrat de Paiement pour Service Environnementaux (PSE)",
       description: "",
       content: {
@@ -334,7 +334,7 @@ List<Lesson> lessons = [
   ),
   Lesson(
       id: 23,
-      idChapter: 5,
+      idChapter: 6,
       title: "6.2 Mise en œuvre du programme PSE de Barry Callebaut",
       description: "",
       content: {
@@ -347,7 +347,7 @@ List<Lesson> lessons = [
   ),
   Lesson(
       id: 24,
-      idChapter: 5,
+      idChapter: 6,
       title: "6.3 Monitoring et paiement des producteurs",
       description: "",
       content: {

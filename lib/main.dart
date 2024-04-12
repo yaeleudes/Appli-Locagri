@@ -1,17 +1,32 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:formation_locagri/controllers/chaptersController.dart';
+import 'package:formation_locagri/controllers/userController.dart';
+import 'package:formation_locagri/models/Chapter.dart';
 import 'package:formation_locagri/pages/splash.dart';
 
-void main() async{
+Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  await Future.delayed(const Duration(seconds: 5));
-  FlutterNativeSplash.remove();
+  await Future.delayed(Duration(seconds: 5), () {
+    FlutterNativeSplash.remove();
+  });
 
-  runApp(const MyApp());
+  
+  UserController userController = UserController();
+  ChapterController chapterController = ChapterController();
+  // final Future <Database> dataBase = userController.database();
+  
+  await userController.ensureUserExists(1);
+  await chapterController.addChapters(chapters);
+
+  runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  // final Future <Database> dataBase
+  MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
