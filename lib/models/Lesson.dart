@@ -82,7 +82,7 @@ List<Lesson> lessons = [
       id: 4,
       idChapter: 2,
       title: "2.2 Situation des forêts en Côte d'Ivoire",
-      description: "Utiliser des cartes pour montrer les changements dans les couvertures forestières en Côte d’Ivoire ",
+      description: "Utiliser des cartes pour montrer les changements dans les couvertures forestières en Côte d’Ivoire",
       content: {
         "Q : Que révèlent ces cartes sur l'évolution des forêts en Côte d'Ivoire de 1990 à 2020 ?" : "R : La carte de 1990 dépeint un pays riche en forêts, avec 7,9 millions d'hectares de verdure, témoignant d'un écosystème forestier robuste. En contraste, la carte de 2020 révèle un déclin marqué, le vert vibrant ayant cédé la place à de vastes étendues brunes. Il ne reste plus que 2,9 millions d'hectares de forêt, une baisse drastique qui sonne l'alarme pour la biodiversité et l'équilibre écologique.",
         "Q : Quelle est l'importance de ce changement pour vous et pour la cacaoculture ?" : "R : Cette disparition des forêts n'est pas seulement une perte pour la nature. Elle affecte profondément le climat local, la fertilité des sols et la régularité des pluies, tous cruciaux pour la santé de nos plantations de cacao. Les arbres jouent un rôle vital dans la prévention de l'érosion et dans le maintien de l'humidité nécessaire à nos cultures.",

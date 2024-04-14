@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:formation_locagri/animation.dart';
-import 'package:formation_locagri/controllers/dao.dart';
 import 'package:formation_locagri/models/Chapter.dart';
 import 'package:formation_locagri/models/Quiz.dart';
-import 'package:formation_locagri/models/User.dart';
 import 'package:formation_locagri/pages/quiz.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,23 +15,27 @@ class QuizMenu extends StatefulWidget {
 
 class _QuizMenuState extends State<QuizMenu> {
   int _score = 0;
-  late User user;
-  bool _allQuizzesValidated = false;
   final box = GetStorage();
   
-
   @override
   void initState() {
     super.initState();
-    _loadUserScore();
-    _allQuizzesValidated = box.read('allQuizzesValidated') ?? false;
+    _score = box.read("score") ?? 0;
+    GetStorage().listenKey("score", (value) {
+      setState(() {
+        _score = value;
+      });
+    });
   }
 
-
-  Future<void> _loadUserScore() async {
-    user = await Dao.getUser(1);
-    setState(() {
-      _score = user.score;
+  @override
+  void setState(VoidCallback fn) {
+    // TODO: implement setState
+    super.setState(fn);
+    GetStorage().listenKey("score", (value) {
+      setState(() {
+        _score = value;
+      });
     });
   }
 
@@ -55,7 +57,6 @@ class _QuizMenuState extends State<QuizMenu> {
             "$_score",
             style: GoogleFonts.poppins(
               color: Colors.white,
-              // fontSize: size.width*0.044
             ),
           )),
           const Padding(
@@ -138,8 +139,7 @@ class _QuizMenuState extends State<QuizMenu> {
                         padding: EdgeInsets.zero,
                         itemCount: chapters.length,
                         shrinkWrap: true,
-                        itemBuilder: (context, index){
-                          // _idChapter = ;
+                        itemBuilder: (context, index) {
                           List<Quiz> filteredQuiz = listQuiz.where((quiz) => quiz.idChapitre == chapters[index].id).toList();
                           return Card(
                             elevation: 4,
@@ -167,8 +167,7 @@ class _QuizMenuState extends State<QuizMenu> {
                                 ),
                                 textAlign: TextAlign.start,
                               ),
-                              // trailing: Icon(Icons.check_circle_outline, color: Colors.grey,),
-                              trailing: (box.read(chapters[index].labelle) ?? false) ? Icon(Icons.check_circle, color: Colors.green,) :Icon(Icons.check_circle_outline, color: Colors.grey,),
+                              trailing: (box.read(chapters[index].labelle) ?? false) ? Icon(Icons.check_circle, color: Colors.green,) : Icon(Icons.check_circle_outline, color: Colors.grey,),
                             ),
                           );
                         },

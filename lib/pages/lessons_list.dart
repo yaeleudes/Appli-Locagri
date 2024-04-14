@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:formation_locagri/controllers/dao.dart';
-import 'package:formation_locagri/controllers/userController.dart';
 import 'package:formation_locagri/models/Chapter.dart';
 import 'package:formation_locagri/models/Lesson.dart';
-import 'package:formation_locagri/models/User.dart';
 import 'package:formation_locagri/pages/chapitre.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LessonsList extends StatefulWidget {
@@ -17,18 +15,17 @@ class LessonsList extends StatefulWidget {
 
 class _LessonsListState extends State<LessonsList> {
   int _score = 0;
-  late User user;
+  final box = GetStorage();
+  // late User user;
 
   @override
   void initState() {
     super.initState();
-    _loadUserScore();
-  }
-
-  Future<void> _loadUserScore() async {
-    user = await Dao.getUser(1);
-    setState(() {
-      _score = user.score;
+    _score = box.read("score") ?? 0;
+    GetStorage().listenKey("score", (value) {
+      setState(() {
+        _score = value;
+      });
     });
   }
   
@@ -91,12 +88,12 @@ class _LessonsListState extends State<LessonsList> {
                         color: Colors.black,
                       ),
                     ),
-                    subtitle: Text(
-                      filteredLessons[index].description,
-                      style: GoogleFonts.poppins(
-                        fontSize: 12,
-                      ),
-                    ),
+                    // subtitle: Text(
+                    //   filteredLessons[index].description,
+                    //   style: GoogleFonts.poppins(
+                    //     fontSize: 12,
+                    //   ),
+                    // ),
                   ),
                 );
               },

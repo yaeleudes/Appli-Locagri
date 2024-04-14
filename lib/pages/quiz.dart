@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:formation_locagri/controllers/dao.dart';
 import 'package:formation_locagri/models/Chapter.dart';
 import 'package:formation_locagri/models/Quiz.dart';
 import 'package:formation_locagri/models/User.dart';
@@ -24,14 +23,12 @@ class _QuizState extends State<QuizView> {
   Set<int> _selectedIndices = <int>{}; 
   int _selectedIndex = -1;
   int _score = 0;
-  int _idChapter = 0;
   int _mesPoints = 0;
   bool isEnabled = true;
   bool _isButtonEnabled = true;
   Color tileColor = Colors.white;
   Color defaultTileColor = Colors.white;
   bool _allQuizzesValidated = false;
-  int _a = 0;
   int _nbrQuestions = 0;
   List<int> _validatedIndices = [];
   String _animeRes = "0";
@@ -45,23 +42,18 @@ class _QuizState extends State<QuizView> {
     // _allQuizzesValidated = box.read(widget.labelle) ?? false;
     _currentQuizIndex = widget.initialQuizIndex;
     _nbrQuestions = widget.listQuiz.length;
-    _loadUser();
-  }
-
-  Future<void> _loadUser() async {
-    user = await Dao.getUser(1);
-    chapter = await Dao.getChapterById(widget.id);
-    setState(() {
-      _score = user.score;
-      _idChapter = chapter.id;
+    _score = box.read("score") ?? 0;
+    GetStorage().listenKey("score", (value) {
+      setState(() {
+        _score = value;
+      });
     });
   }
 
-  Future<void> _incrementScore() async {
-    await Dao.updateUser(User(id: 1, score: _score + 1));
-    User updatedUser = await Dao.getUser(1);
+  void _incrementScore() {
     setState(() {
-      _score = updatedUser.score;
+      _score++;
+      box.write("score", _score);
     });
   }
 
@@ -114,7 +106,6 @@ class _QuizState extends State<QuizView> {
     
     _isButtonEnabled = false;
     isEnabled = false;
-     _a = 0;
     setState(() {
       if (widget.listQuiz[_currentQuizIndex].reponseExacte.length > 1) {
         
@@ -159,12 +150,28 @@ class _QuizState extends State<QuizView> {
     });
   }
 
-  Future<void> _mAllQuizzesValidated() async {
-    await Dao.updateChapter(_idChapter, 'end', _allQuizzesValidated.toString());
+  void _revenir(){
+    setState(() {
+      isEnabled = true;
+      _isButtonEnabled = true;
+      _currentQuizIndex = 0;
+      _selectedAnswers.clear();
+      _selectedIndices.clear();
+      _allQuizzesValidated = false;
+      _validatedIndices.clear();
+      _mesPoints = 0;
+      for (Quiz quiz in widget.listQuiz) {
+        quiz.valide = false;
+      }
+      _allQuizzesValidated = false;
+    });
+  }
+
+  void _mAllQuizzesValidated() {
     setState(() {
       _allQuizzesValidated = true;
+      box.write(widget.labelle, _allQuizzesValidated);
     });
-    box.write(widget.labelle, _allQuizzesValidated);
   }
 
   Widget _buildQuestionText() {
@@ -424,7 +431,6 @@ class _QuizState extends State<QuizView> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                
               ],
             ),
           ),
@@ -434,21 +440,7 @@ class _QuizState extends State<QuizView> {
             borderRadius: BorderRadius.circular(10),
             child: InkWell(
               onTap: () {
-                setState(() {
-                  isEnabled = true;
-                  _isButtonEnabled = true;
-                  _currentQuizIndex = 0;
-                  _selectedAnswers.clear();
-                  _selectedIndices.clear();
-                  _allQuizzesValidated = false;
-                  _validatedIndices.clear();
-                  _mesPoints = 0;
-                  _a = 0;
-                  for (Quiz quiz in widget.listQuiz) {
-                    quiz.valide = false;
-                  }
-                  _allQuizzesValidated = false;
-                });
+                _revenir();
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -494,10 +486,8 @@ class _QuizState extends State<QuizView> {
         actions: [
           Center(child: Text(
             "${_score}",
-            // _mesPoints.toString(),
             style: GoogleFonts.poppins(
               color: Colors.white,
-              // fontSize: size.width*0.044
             ),
           )),
           const Padding(
@@ -509,17 +499,21 @@ class _QuizState extends State<QuizView> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (!_allQuizzesValidated)
-              _buildQuizView()
-            else
-              _buildResultView(),
-          ],
-        ),
+      body: ListView(
+        children:[ 
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (!_allQuizzesValidated)
+                  _buildQuizView()
+                else
+                  _buildResultView(),
+              ],
+            ),
+          ),
+        ]
       ),
     );
   }

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:formation_locagri/controllers/dao.dart';
 import 'package:formation_locagri/models/Lesson.dart';
-import 'package:formation_locagri/models/User.dart';
 import 'package:full_screen_image/full_screen_image.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 
 class Chapitre extends StatefulWidget {
   Lesson lesson;
@@ -17,26 +15,21 @@ class Chapitre extends StatefulWidget {
 
 class _ChapitreState extends State<Chapitre> {
   int _score = 0;
-  late User user;
+  final box = GetStorage();
 
   @override
   void initState() {
     super.initState();
-    _loadUserScore();
-  }
-
-  Future<void> _loadUserScore() async {
-    // final UserController userController = UserController();
-    user = await Dao.getUser(1);
-    setState(() {
-      _score = user.score;
+    _score = box.read("score") ?? 0;
+    GetStorage().listenKey("score", (value) {
+      setState(() {
+        _score = value;
+      });
     });
   }
   
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -98,7 +91,7 @@ class _ChapitreState extends State<Chapitre> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(16),
                           child: InteractiveViewer(
-                            boundaryMargin: EdgeInsets.all(100),
+                            boundaryMargin: EdgeInsets.all(10),
                             minScale: 0.1,
                             maxScale: 5,
                             child: Image.asset(widget.lesson.thumbnail, fit: BoxFit.cover,),

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:formation_locagri/animation.dart';
-import 'package:formation_locagri/controllers/dao.dart';
 import 'package:formation_locagri/models/Chapter.dart';
-import 'package:formation_locagri/models/User.dart';
 import 'package:formation_locagri/pages/lessons_list.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Cours extends StatefulWidget {
@@ -14,18 +13,17 @@ class Cours extends StatefulWidget {
 }
 class _CoursState extends State<Cours> {
   int _score = 0;
-  late User user;
+  final box = GetStorage();
+  // late User user;
 
   @override
   void initState() {
     super.initState();
-    _loadUserScore();
-  }
-
-  Future<void> _loadUserScore() async {
-    user = await Dao.getUser(1);
-    setState(() {
-      _score = user.score;
+    _score = box.read("score") ?? 0;
+    GetStorage().listenKey("score", (value) {
+      setState(() {
+        _score = value;
+      });
     });
   }
   
@@ -161,14 +159,16 @@ class _CoursState extends State<Cours> {
                                   ),
                                 ),
                                 const SizedBox(height: 12),
-                                Text(
-                                  chapters[index].title,
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black.withOpacity(0.5)
+                                Expanded(
+                                  child: Text(
+                                    chapters[index].title,
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black.withOpacity(0.5)
+                                    ),
+                                    textAlign: TextAlign.start,
                                   ),
-                                  textAlign: TextAlign.start,
                                 )
                               ],
                             ),
