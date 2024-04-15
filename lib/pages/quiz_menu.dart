@@ -7,7 +7,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class QuizMenu extends StatefulWidget {
-  QuizMenu({super.key});
+  const QuizMenu({super.key});
 
   @override
   State<QuizMenu> createState() => _QuizMenuState();

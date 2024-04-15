@@ -73,7 +73,7 @@ class _ChapitreState extends State<Chapitre> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(left: 4),
+                    padding: const EdgeInsets.only(left: 4),
                     child: Text(
                       widget.lesson.title,
                       style: GoogleFonts.poppins(
@@ -83,22 +83,30 @@ class _ChapitreState extends State<Chapitre> {
                     ),
                   ),
                   const SizedBox(height: 10,),
-                  FullScreenWidget(
-                    disposeLevel: DisposeLevel.Medium,
-                    child: Center(
-                      child: Hero(
-                        tag: "smallImage", 
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: InteractiveViewer(
-                            boundaryMargin: EdgeInsets.all(10),
-                            minScale: 0.1,
-                            maxScale: 5,
-                            child: Image.asset(widget.lesson.thumbnail, fit: BoxFit.cover,),
-                          )
+                  Column(
+                    children: widget.lesson.thumbnails.map((imagePath) {
+                      return FullScreenWidget(
+                        backgroundColor: Colors.white,
+                        disposeLevel: DisposeLevel.Medium,
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 15),
+                          child: Center(
+                            child: Hero(
+                              tag: imagePath, 
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(16),
+                                child: InteractiveViewer(
+                                  boundaryMargin: const EdgeInsets.all(0),
+                                  minScale: 1,
+                                  maxScale: 5,
+                                  child: Image.asset(imagePath, fit: BoxFit.cover,),
+                                )
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    }).toList(),
                   ),
                   const SizedBox(height: 10,),
                   Column(
