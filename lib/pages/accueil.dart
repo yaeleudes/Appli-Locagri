@@ -111,7 +111,7 @@ class _AccueilState extends State<Accueil> {
                           AnimationDelay(
                             delay: 1500, 
                             child: Text(
-                              "Formation sur l'argroforesterie en cacaoculture",
+                              "Formation sur l'agroforesterie en cacaoculture",
                               style: GoogleFonts.poppins(
                                 color: Colors.black,
                                 fontSize: 20,
